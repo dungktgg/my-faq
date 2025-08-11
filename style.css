@@ -1,0 +1,22 @@
+body{
+  background: #fff;
+  color: #000;
+  font-family: "Times New Roman", Georgia, serif;
+  padding: 20px;
+  line-height: 1.35;
+}
+.wrap{
+  max-width: 900px;
+  margin: 0 auto;
+}
+h1{
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+strong{
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+  text-transform: lowercase;
+}
+a{ color: blue; text-decoration: underline; }
