@@ -1,13 +1,11 @@
-/* 1. Define the custom TTF font from your root folder */
 @font-face {
   font-family: "DINNextRoundedLTW01-Regular";
-  src: url("DIN Next Rounded LT W01 Regular.ttf") format("truetype");
+  src: url("DINfont.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* 2. Apply it to the body */
 body {
   background: #fff;
   color: #000;
