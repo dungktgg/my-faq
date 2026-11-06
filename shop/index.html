@@ -1,1041 +1,352 @@
 <!DOCTYPE html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALENTI & CO. — Handcrafted Leather Goods</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        leather: {
-                            50: '#FDFBF7',
-                            100: '#F4EFE6',
-                            200: '#E6D7C3',
-                            300: '#CBB69D',
-                            400: '#B09072',
-                            500: '#8C4E28', // Saddle Tan
-                            600: '#6E3A1C', 
-                            700: '#4A2212', // Bourbon Mahogany
-                            800: '#2B150C', // Dark Espresso
-                            900: '#170B06',
-                            950: '#0D0603',
-                        },
-                        amberGold: '#D4AF37',
-                        noir: '#0D0B0A',
-                        surface: '#161311',
-                        surfaceCard: '#1F1B18',
-                        surfaceBorder: '#2E2723',
-                    },
-                    fontFamily: {
-                        serif: ['Cormorant Garamond', 'serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dung Leathercraft — Catalog</title>
+  <style>
+    :root {
+      --bg-color: #fafafa;
+      --text-color: #111111;
+      --subtext-color: #666666;
+      --border-color: #e5e5e5;
+      --card-bg: #ffffff;
+      --info-bg: #f0f0f0;
+      --info-text: #444444;
+      --btn-bg: #f4f4f4;
+      --btn-text: #111111;
+      --btn-border: #ddd;
+      --accent-bg: #000000;
+      --accent-text: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.08);
+    }
 
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #f0f0f0;
+      --subtext-color: #a0a0a0;
+      --border-color: #2a2a2a;
+      --card-bg: #1e1e1e;
+      --info-bg: #222222;
+      --info-text: #cccccc;
+      --btn-bg: #2a2a2a;
+      --btn-text: #ffffff;
+      --btn-border: #444444;
+      --accent-bg: #ffffff;
+      --accent-text: #000000;
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
 
-    <style>
-        /* Custom scrollbars & subtle noise overlays */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0D0B0A;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2E2723;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8C4E28;
-        }
-
-        .leather-glow {
-            box-shadow: 0 0 50px -10px rgba(140, 78, 40, 0.25);
-        }
-        
-        .gold-text-gradient {
-            background: linear-gradient(135deg, #FFF7AD 0%, #D4AF37 50%, #AA771C 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* SVG foil filter effects */
-        .gold-foil-text {
-            fill: url(#goldGradient);
-            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.8));
-        }
-        .silver-foil-text {
-            fill: url(#silverGradient);
-            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.8));
-        }
-        .debossed-text {
-            fill: rgba(0,0,0,0.45);
-            filter: drop-shadow(0px 1px 0px rgba(255,255,255,0.15));
-        }
-    </style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .control-btn {
+      background: var(--btn-bg);
+      color: var(--text-color);
+      border: 1px solid var(--btn-border);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    header {
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .subtext {
+      color: var(--subtext-color);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+    .info-box {
+      background: var(--info-bg);
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--info-text);
+      margin-bottom: 32px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-bottom: 36px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .card.selected {
+      border-color: var(--text-color);
+      box-shadow: 0 0 0 1px var(--text-color);
+    }
+    .card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      background-color: var(--btn-bg);
+    }
+    .card-content {
+      padding: 16px 20px;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .card-desc {
+      color: var(--subtext-color);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .card-price {
+      font-weight: 700;
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+    .select-btn {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: 1px solid var(--btn-border);
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .card.selected .select-btn {
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-color: var(--accent-bg);
+    }
+    .action-panel {
+      position: sticky;
+      bottom: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--text-color);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px var(--shadow-color);
+      text-align: center;
+    }
+    .action-btn {
+      display: inline-block;
+      width: 100%;
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      text-decoration: none;
+      padding: 14px 0;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--subtext-color);
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+    }
+    footer a {
+      color: var(--text-color);
+      text-decoration: underline;
+      margin: 0 6px;
+    }
+  </style>
 </head>
-<body class="bg-noir text-leather-100 font-sans antialiased selection:bg-leather-500 selection:text-white min-h-screen flex flex-col">
+<body>
 
-    <!-- Announcement Bar -->
-    <div class="bg-leather-800 border-b border-leather-700/50 text-xs tracking-wider uppercase py-2 px-4 text-center text-leather-300 font-medium flex items-center justify-center gap-2">
-        <i class="fa-solid fa-gem text-amberGold text-[10px]"></i>
-        <span>Complimentary Worldwide Shipping on Orders Over $100 &bull; Hand-stitched in Small Batches</span>
+  <div class="container">
+    <!-- Top Controls Bar -->
+    <div class="top-bar">
+      <button id="lang-toggle" class="control-btn" onclick="toggleLang()">VIE</button>
+      <button id="theme-toggle" class="control-btn" onclick="toggleTheme()">🌙 Dark</button>
     </div>
 
-    <!-- Main Navigation Header -->
-    <header class="sticky top-0 z-40 bg-noir/90 backdrop-blur-md border-b border-surfaceBorder transition-all duration-300" id="mainHeader">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                
-                <!-- Brand Logo -->
-                <a href="#" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-full border border-leather-500/40 bg-leather-800/50 flex items-center justify-center text-amberGold font-serif font-bold text-xl group-hover:border-amberGold transition-colors">
-                        V
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-serif text-2xl font-bold tracking-widest text-white group-hover:text-leather-300 transition-colors">VALENTI & CO.</span>
-                        <span class="text-[9px] tracking-[0.25em] text-leather-400 uppercase -mt-1">Leathercraft Studio</span>
-                    </div>
-                </a>
-
-                <!-- Nav Links -->
-                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
-                    <a href="#customizer" class="text-leather-300 hover:text-amberGold transition-colors flex items-center gap-1.5">
-                        <i class="fa-solid fa-wand-magic-sparkles text-xs text-amberGold"></i> Customizer
-                    </a>
-                    <a href="#products" class="text-leather-200 hover:text-amberGold transition-colors">Collection</a>
-                    <a href="#craftsmanship" class="text-leather-200 hover:text-amberGold transition-colors">Craftsmanship</a>
-                    <a href="#faq" class="text-leather-200 hover:text-amberGold transition-colors">Care & FAQ</a>
-                </a>
-                </nav>
-
-                <!-- Action Controls -->
-                <div class="flex items-center gap-4">
-                    <!-- Wishlist Counter (Decorative demo) -->
-                    <button onclick="toggleToast('Wishlist feature synced to your session!')" class="text-leather-300 hover:text-white p-2 rounded-full hover:bg-surfaceCard transition-colors relative">
-                        <i class="fa-regular fa-heart text-lg"></i>
-                        <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-amberGold"></span>
-                    </button>
-
-                    <!-- Cart Drawer Trigger Button -->
-                    <button id="cartBtn" onclick="openCart()" class="flex items-center gap-2.5 bg-leather-800 hover:bg-leather-700 text-leather-100 border border-leather-600/50 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all shadow-md">
-                        <i class="fa-solid fa-bag-shopping text-amberGold text-sm"></i>
-                        <span>Bag</span>
-                        <span id="cartBadge" class="bg-amberGold text-noir px-2 py-0.5 rounded-full text-[11px] font-bold">0</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <header>
+      <h1 id="header-title">handcrafted leather</h1>
+      <p id="subtext" class="subtext">Minimalist cardholders & wallets built to last.</p>
     </header>
 
-    <main class="flex-grow">
-        
-        <!-- HERO SECTION -->
-        <section class="relative overflow-hidden py-24 md:py-32 border-b border-surfaceBorder bg-gradient-to-b from-noir via-surface to-noir">
-            <!-- Subtle Radial Glow -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-leather-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <div id="info-box" class="info-box">
+      <strong>How to buy:</strong> Select a model below and click order. It will direct you straight to my <strong>Threads inbox</strong> to confirm details and finish your order.
+    </div>
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-leather-800/80 border border-leather-600/40 text-amberGold text-xs font-medium tracking-widest uppercase">
-                            <i class="fa-solid fa-certificate"></i> Full-Grain Italian Vegetable-Tanned
-                        </div>
-                        <h1 class="font-serif text-5xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.1]">
-                            Crafted to Age.<br>
-                            <span class="gold-text-gradient italic">Designed to Endure.</span>
-                        </h1>
-                        <p class="text-leather-300 text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-                            Minimalist wallets, bifold cases, and cardholders hand-stitched with waxed linen thread. Engineered for zero bulk and a rich lifetime patina.
-                        </p>
-                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                            <a href="#customizer" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-leather-500 to-leather-700 hover:from-leather-600 hover:to-leather-800 text-white rounded-xl font-medium text-sm tracking-wider uppercase transition-all transform hover:-translate-y-0.5 shadow-lg shadow-leather-900/50 flex items-center justify-center gap-3">
-                                <i class="fa-solid fa-sliders text-amberGold"></i>
-                                Design Your Wallet
-                            </a>
-                            <a href="#products" class="w-full sm:w-auto px-8 py-4 bg-surfaceCard hover:bg-surfaceBorder border border-surfaceBorder text-leather-200 rounded-xl font-medium text-sm tracking-wider uppercase transition-all text-center">
-                                View Collection
-                            </a>
-                        </div>
-
-                        <!-- Trust metrics -->
-                        <div class="pt-8 grid grid-cols-3 gap-6 border-t border-surfaceBorder/60 max-w-lg mx-auto lg:mx-0 text-left">
-                            <div>
-                                <p class="font-serif text-2xl font-bold text-white">100%</p>
-                                <p class="text-xs text-leather-400">Hand Saddle Stitched</p>
-                            </div>
-                            <div>
-                                <p class="font-serif text-2xl font-bold text-white">Full-Grain</p>
-                                <p class="text-xs text-leather-400">Tuscan Leather</p>
-                            </div>
-                            <div>
-                                <p class="font-serif text-2xl font-bold text-white">Lifetime</p>
-                                <p class="text-xs text-leather-400">Craft Guarantee</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Hero Visual Card -->
-                    <div class="lg:col-span-5 flex justify-center">
-                        <div class="relative w-full max-w-md bg-gradient-to-br from-surfaceCard to-noir p-6 rounded-3xl border border-surfaceBorder shadow-2xl leather-glow group">
-                            <div class="absolute -top-3 -right-3 bg-amberGold text-noir font-bold text-[10px] tracking-widest uppercase px-3 py-1 rounded-full shadow-lg">
-                                Iconic Bestseller
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800" 
-                                 alt="Handcrafted Leather Wallet" 
-                                 class="w-full h-80 object-cover rounded-2xl filter brightness-95 group-hover:scale-[1.02] transition-transform duration-500 shadow-inner">
-                            <div class="mt-5 flex items-center justify-between">
-                                <div>
-                                    <h3 class="font-serif text-xl font-bold text-white">The Savoy Card Holder</h3>
-                                    <p class="text-xs text-leather-400">Saddle Tan &bull; 4 Card Slots + Bill Sleeve</p>
-                                </div>
-                                <span class="font-serif text-2xl font-bold text-amberGold">$58</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- VALUE PROPOSITION BAR -->
-        <section class="border-b border-surfaceBorder bg-surface py-8">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                    <div class="flex flex-col items-center gap-2">
-                        <i class="fa-solid fa-cow text-amberGold text-xl"></i>
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-white">Full-Grain Tannage</h4>
-                        <p class="text-[11px] text-leather-400">Authentic patina development</p>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <i class="fa-solid fa-needle text-amberGold text-xl"></i>
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-white">Two-Needle Saddle Stitch</h4>
-                        <p class="text-[11px] text-leather-400">Unravel-proof stitching</p>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <i class="fa-solid fa-stamp text-amberGold text-xl"></i>
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-white">Custom Monogramming</h4>
-                        <p class="text-[11px] text-leather-400">Free initials hot stamping</p>
-                    </div>
-                    <div class="flex flex-col items-center gap-2">
-                        <i class="fa-solid fa-shield-halved text-amberGold text-xl"></i>
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-white">Lifetime Warranty</h4>
-                        <p class="text-[11px] text-leather-400">Built for generations</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- INTERACTIVE LIVE CUSTOMIZER SECTION -->
-        <section id="customizer" class="py-20 border-b border-surfaceBorder bg-noir relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="text-center max-w-2xl mx-auto mb-14">
-                    <span class="text-amberGold text-xs font-semibold tracking-widest uppercase">Bespoke Atelier</span>
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">Live Leather Studio</h2>
-                    <p class="text-leather-400 text-sm mt-2">Customize your wallet hide finish, thread accent color, and personalized foil monogram in real time.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-surface p-6 sm:p-10 rounded-3xl border border-surfaceBorder shadow-2xl">
-                    
-                    <!-- SVG Interactive Canvas Preview -->
-                    <div class="lg:col-span-7 flex flex-col items-center justify-center p-8 bg-noir rounded-2xl border border-surfaceBorder relative min-h-[380px] w-full">
-                        <div class="absolute top-4 left-4 text-xs text-leather-400 font-mono flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Interactive Vector Preview
-                        </div>
-
-                        <!-- Dynamic SVG Leather Cardholder -->
-                        <div class="w-full max-w-md aspect-[4/3] relative flex items-center justify-center">
-                            <svg viewBox="0 0 400 280" class="w-full h-full filter drop-shadow-2xl transition-all duration-300" id="customizerSvg">
-                                <defs>
-                                    <!-- Foil Gradients -->
-                                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#FFE082" />
-                                        <stop offset="50%" stop-color="#D4AF37" />
-                                        <stop offset="100%" stop-color="#996515" />
-                                    </linearGradient>
-                                    <linearGradient id="silverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#FFFFFF" />
-                                        <stop offset="50%" stop-color="#C0C0C0" />
-                                        <stop offset="100%" stop-color="#707070" />
-                                    </linearGradient>
-                                </defs>
-
-                                <!-- Leather Main Body Base -->
-                                <rect x="50" y="30" width="300" height="220" rx="16" id="svgLeatherBody" fill="#8C4E28" stroke="#000" stroke-opacity="0.3" stroke-width="2"/>
-
-                                <!-- Top Card Pocket Slot 1 -->
-                                <path d="M 50,85 Q 200,105 350,85 L 350,30 L 50,30 Z" id="svgPocket1" fill="#78401F" stroke="#000" stroke-opacity="0.2"/>
-
-                                <!-- Front Curved Pocket Slot 2 -->
-                                <path d="M 50,135 Q 200,165 350,135 L 350,250 C 350,258 342,250 334,250 L 66,250 C 58,250 50,258 50,250 Z" id="svgPocket2" fill="#653518" stroke="#000" stroke-opacity="0.25"/>
-
-                                <!-- Perimeter Hand Saddle Stitching Line -->
-                                <rect x="58" y="38" width="284" height="204" rx="10" 
-                                      fill="none" 
-                                      id="svgStitchLine" 
-                                      stroke="#F4EFE6" 
-                                      stroke-width="2" 
-                                      stroke-dasharray="6,4" 
-                                      stroke-linecap="round"/>
-                                
-                                <!-- Curved Pocket Accent Stitching -->
-                                <path d="M 58,137 Q 200,167 342,137" fill="none" id="svgStitchLine2" stroke="#F4EFE6" stroke-width="2" stroke-dasharray="6,4"/>
-
-                                <!-- Monogram Stamp Location (Bottom Right) -->
-                                <text x="310" y="230" text-anchor="end" font-family="'Cormorant Garamond', serif" font-weight="700" font-size="22" letter-spacing="2" id="svgMonogram" class="gold-foil-text">
-                                    PMD
-                                </text>
-
-                                <!-- Embossed Brand Logo Stamp (Center Top) -->
-                                <text x="200" y="60" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="9" letter-spacing="3" fill="rgba(0,0,0,0.35)">
-                                    VALENTI & CO.
-                                </text>
-                            </svg>
-                        </div>
-
-                        <!-- Live Summary Pill -->
-                        <div class="mt-4 flex items-center gap-4 text-xs bg-surfaceCard px-4 py-2 rounded-full border border-surfaceBorder text-leather-300">
-                            <span>Selected Hide: <strong id="summaryHide" class="text-white font-medium">Saddle Tan</strong></span>
-                            <span>&bull;</span>
-                            <span>Thread: <strong id="summaryThread" class="text-white font-medium">Cream Linen</strong></span>
-                        </div>
-                    </div>
-
-                    <!-- Customizer Options Controls -->
-                    <div class="lg:col-span-5 space-y-6">
-                        
-                        <!-- 1. Hide Finish Selection -->
-                        <div>
-                            <label class="block text-xs font-semibold tracking-wider text-leather-300 uppercase mb-3">
-                                1. Select Italian Leather Hide
-                            </label>
-                            <div class="grid grid-cols-5 gap-3" id="leatherOptions">
-                                <button onclick="updateLeather('#8C4E28', '#78401F', '#653518', 'Saddle Tan')" class="h-11 rounded-xl bg-[#8C4E28] border-2 border-amberGold ring-2 ring-amberGold/30 transition-all flex items-center justify-center text-white" title="Saddle Tan"></button>
-                                <button onclick="updateLeather('#1C1514', '#15100F', '#0D0A09', 'Espresso Dark')" class="h-11 rounded-xl bg-[#1C1514] border-2 border-transparent hover:border-leather-400 transition-all" title="Espresso Dark"></button>
-                                <button onclick="updateLeather('#4A2212', '#3B1B0E', '#2D140A', 'Bourbon Mahogany')" class="h-11 rounded-xl bg-[#4A2212] border-2 border-transparent hover:border-leather-400 transition-all" title="Bourbon Mahogany"></button>
-                                <button onclick="updateLeather('#2B3627', '#222B1F', '#192017', 'Olive Horween')" class="h-11 rounded-xl bg-[#2B3627] border-2 border-transparent hover:border-leather-400 transition-all" title="Olive Horween"></button>
-                                <button onclick="updateLeather('#1B2330', '#151B25', '#0E121A', 'Midnight Navy')" class="h-11 rounded-xl bg-[#1B2330] border-2 border-transparent hover:border-leather-400 transition-all" title="Midnight Navy"></button>
-                            </div>
-                        </div>
-
-                        <!-- 2. Waxed Thread Stitch Color -->
-                        <div>
-                            <label class="block text-xs font-semibold tracking-wider text-leather-300 uppercase mb-3">
-                                2. Waxed Linen Thread Accent
-                            </label>
-                            <div class="grid grid-cols-4 gap-3">
-                                <button onclick="updateThread('#F4EFE6', 'Cream Linen')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-surfaceBorder text-xs font-medium text-leather-200 hover:border-amberGold transition-all flex items-center gap-2">
-                                    <span class="w-3 h-3 rounded-full bg-[#F4EFE6] border border-black/20"></span> Cream
-                                </button>
-                                <button onclick="updateThread('#D9A05B', 'Honey Amber')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-surfaceBorder text-xs font-medium text-leather-200 hover:border-amberGold transition-all flex items-center gap-2">
-                                    <span class="w-3 h-3 rounded-full bg-[#D9A05B]"></span> Honey
-                                </button>
-                                <button onclick="updateThread('#2D1E18', 'Dark Espresso')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-surfaceBorder text-xs font-medium text-leather-200 hover:border-amberGold transition-all flex items-center gap-2">
-                                    <span class="w-3 h-3 rounded-full bg-[#2D1E18]"></span> Dark
-                                </button>
-                                <button onclick="updateThread('#111111', 'Obsidian')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-surfaceBorder text-xs font-medium text-leather-200 hover:border-amberGold transition-all flex items-center gap-2">
-                                    <span class="w-3 h-3 rounded-full bg-[#111111]"></span> Black
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 3. Monogram Hot Stamping -->
-                        <div>
-                            <div class="flex items-center justify-between mb-2">
-                                <label class="text-xs font-semibold tracking-wider text-leather-300 uppercase">
-                                    3. Personalized Monogram (Up to 3 Initials)
-                                </label>
-                                <span class="text-[10px] text-amberGold uppercase tracking-wider font-semibold">Free Stamping</span>
-                            </div>
-                            <input type="text" 
-                                   id="monogramInput" 
-                                   maxlength="3" 
-                                   value="PMD" 
-                                   oninput="updateMonogramText(this.value)"
-                                   placeholder="e.g. PMD" 
-                                   class="w-full bg-noir border border-surfaceBorder rounded-xl px-4 py-3 text-white uppercase font-serif tracking-widest focus:outline-none focus:border-amberGold transition-colors text-lg">
-                        </div>
-
-                        <!-- 4. Foil Stamp Style -->
-                        <div>
-                            <label class="block text-xs font-semibold tracking-wider text-leather-300 uppercase mb-3">
-                                4. Embossing Finish
-                            </label>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button onclick="updateFoil('gold-foil-text')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-amberGold/50 text-xs font-medium text-amberGold hover:bg-leather-800 transition-all text-center">
-                                    ✨ 24K Gold Foil
-                                </button>
-                                <button onclick="updateFoil('silver-foil-text')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-surfaceBorder text-xs font-medium text-gray-300 hover:border-gray-400 transition-all text-center">
-                                    ⚡ Silver Foil
-                                </button>
-                                <button onclick="updateFoil('debossed-text')" class="py-2 px-3 rounded-xl bg-surfaceCard border border-surfaceBorder text-xs font-medium text-leather-400 hover:border-leather-300 transition-all text-center">
-                                    🔥 Blind Deboss
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Add Custom Piece To Bag -->
-                        <div class="pt-4 border-t border-surfaceBorder flex items-center justify-between gap-4">
-                            <div>
-                                <p class="text-xs text-leather-400">Total Bespoke Piece</p>
-                                <p class="font-serif text-3xl font-bold text-white" id="customizerPrice">$65</p>
-                            </div>
-                            <button onclick="addCustomToCart()" class="flex-grow py-4 px-6 bg-gradient-to-r from-amberGold to-amber-600 hover:from-amber-400 hover:to-amber-500 text-noir font-bold rounded-xl text-xs uppercase tracking-widest transition-all transform hover:-translate-y-0.5 shadow-lg flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-bag-shopping"></i> Add Custom Piece To Bag
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- PRODUCT CATALOG SHOWCASE GRID -->
-        <section id="products" class="py-24 border-b border-surfaceBorder bg-surface">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                    <div>
-                        <span class="text-amberGold text-xs font-semibold tracking-widest uppercase">The Collection</span>
-                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">Handcrafted Essentials</h2>
-                    </div>
-
-                    <!-- Category Filter Tabs -->
-                    <div class="flex flex-wrap gap-2 bg-noir p-1.5 rounded-2xl border border-surfaceBorder self-start md:self-auto">
-                        <button onclick="filterProducts('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-medium text-white bg-leather-800 border border-leather-600/40 transition-all">
-                            All Goods
-                        </button>
-                        <button onclick="filterProducts('cardholders')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-leather-300 hover:text-white transition-all">
-                            Cardholders
-                        </button>
-                        <button onclick="filterProducts('bifolds')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-leather-300 hover:text-white transition-all">
-                            Bifold Wallets
-                        </button>
-                        <button onclick="filterProducts('accessories')" class="filter-btn px-4 py-2 rounded-xl text-xs font-medium text-leather-300 hover:text-white transition-all">
-                            Travel & Keys
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Dynamic Product Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="productGrid">
-                    <!-- Javascript populates products here -->
-                </div>
-
-            </div>
-        </section>
-
-        <!-- CRAFTSMANSHIP & LEATHER AGING (PATINA STORY) -->
-        <section id="craftsmanship" class="py-24 border-b border-surfaceBorder bg-noir relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    
-                    <div class="space-y-6">
-                        <span class="text-amberGold text-xs font-semibold tracking-widest uppercase">The Art of Aging</span>
-                        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
-                            A Story Written in <span class="gold-text-gradient italic">Natural Patina</span>
-                        </h2>
-                        <p class="text-leather-300 leading-relaxed text-sm sm:text-base font-light">
-                            Unlike synthetic materials that deteriorate over time, full-grain vegetable-tanned leather absorbs the journeys of your everyday carry. Friction, sunlight, and natural oils deepen its shade into a rich, glossy golden luster uniquely yours.
-                        </p>
-                        
-                        <div class="space-y-4 pt-2">
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-surfaceCard border border-surfaceBorder flex items-center justify-center text-amberGold shrink-0">
-                                    <i class="fa-solid fa-leaf"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-white font-medium text-sm">Natural Plant Tannins</h4>
-                                    <p class="text-xs text-leather-400 mt-0.5">Tanned slowly using natural chestnut tree barks and mimosa extracts in Tuscany.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-surfaceCard border border-surfaceBorder flex items-center justify-center text-amberGold shrink-0">
-                                    <i class="fa-solid fa-scissors"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-white font-medium text-sm">Beeswax Edge Burnishing</h4>
-                                    <p class="text-xs text-leather-400 mt-0.5">Smooth, sealed edges hand-rubbed with natural beeswax for weather resilience.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visual Comparison: New vs Aged Leather -->
-                    <div class="bg-surface p-6 rounded-3xl border border-surfaceBorder shadow-xl">
-                        <div class="text-center mb-4">
-                            <h3 class="text-xs font-semibold uppercase tracking-wider text-leather-300">Patina Progression Preview</h3>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="relative group rounded-2xl overflow-hidden border border-surfaceBorder">
-                                <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=600" alt="Brand New Leather" class="w-full h-64 object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-t from-noir/90 via-transparent to-transparent flex items-end p-4">
-                                    <div>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider bg-leather-800 text-leather-200 px-2.5 py-1 rounded-md border border-leather-600">Day 1</span>
-                                        <p class="text-xs text-white font-medium mt-1">Matte Saddle Tan</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="relative group rounded-2xl overflow-hidden border border-amberGold/40">
-                                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600" alt="Aged Patina Leather" class="w-full h-64 object-cover filter brightness-90 contrast-125">
-                                <div class="absolute inset-0 bg-gradient-to-t from-noir/90 via-transparent to-transparent flex items-end p-4">
-                                    <div>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider bg-amberGold text-noir px-2.5 py-1 rounded-md">Year 3</span>
-                                        <p class="text-xs text-white font-medium mt-1">Deep Honey Luster</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ & CARE SECTION (Repurposed FAQ feature from student repo) -->
-        <section id="faq" class="py-24 border-b border-surfaceBorder bg-surface">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                
-                <div class="text-center mb-14">
-                    <span class="text-amberGold text-xs font-semibold tracking-widest uppercase">Client Care</span>
-                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">Frequently Asked Questions</h2>
-                    <p class="text-leather-400 text-sm mt-2">Everything you need to know about caring for your leather goods and order fulfillment.</p>
-                </div>
-
-                <!-- Accordion Items -->
-                <div class="space-y-4" id="faqAccordion">
-                    
-                    <div class="bg-noir rounded-2xl border border-surfaceBorder overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full text-left p-6 flex items-center justify-between text-white font-serif text-lg font-semibold hover:text-amberGold transition-colors">
-                            <span>How do I care for my full-grain leather cardholder?</span>
-                            <i class="fa-solid fa-chevron-down text-xs text-leather-400 transition-transform"></i>
-                        </button>
-                        <div class="px-6 pb-6 text-leather-300 text-sm hidden leading-relaxed border-t border-surfaceBorder/40 pt-4">
-                            Avoid submerging in water. If dry, apply a light coat of natural beeswax or mink oil balm once every 6 months. Wipe clean with a soft dry microfiber cloth.
-                        </div>
-                    </div>
-
-                    <div class="bg-noir rounded-2xl border border-surfaceBorder overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full text-left p-6 flex items-center justify-between text-white font-serif text-lg font-semibold hover:text-amberGold transition-colors">
-                            <span>How many cards fit in the minimalist cardholders?</span>
-                            <i class="fa-solid fa-chevron-down text-xs text-leather-400 transition-transform"></i>
-                        </button>
-                        <div class="px-6 pb-6 text-leather-300 text-sm hidden leading-relaxed border-t border-surfaceBorder/40 pt-4">
-                            Initially, our slim cardholders fit 4-6 plastic cards plus folded cash notes. Full-grain leather naturally molds to your carry over the first 2 weeks, allowing up to 8 cards comfortably without losing form.
-                        </div>
-                    </div>
-
-                    <div class="bg-noir rounded-2xl border border-surfaceBorder overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full text-left p-6 flex items-center justify-between text-white font-serif text-lg font-semibold hover:text-amberGold transition-colors">
-                            <span>What does the Lifetime Craft Guarantee cover?</span>
-                            <i class="fa-solid fa-chevron-down text-xs text-leather-400 transition-transform"></i>
-                        </button>
-                        <div class="px-6 pb-6 text-leather-300 text-sm hidden leading-relaxed border-t border-surfaceBorder/40 pt-4">
-                            We stand by every stitch. If your wallet experience unraveling saddle stitching, edge splitting, or structural failure under normal use, we will repair or replace your item free of charge for life.
-                        </div>
-                    </div>
-
-                    <div class="bg-noir rounded-2xl border border-surfaceBorder overflow-hidden">
-                        <button onclick="toggleFaq(this)" class="w-full text-left p-6 flex items-center justify-between text-white font-serif text-lg font-semibold hover:text-amberGold transition-colors">
-                            <span>Can custom monogrammed items be returned?</span>
-                            <i class="fa-solid fa-chevron-down text-xs text-leather-400 transition-transform"></i>
-                        </button>
-                        <div class="px-6 pb-6 text-leather-300 text-sm hidden leading-relaxed border-t border-surfaceBorder/40 pt-4">
-                            Standard un-stamped goods have a 30-day hassle-free return policy. Bespoke pieces customized with your initials are final sale, but covered under our full lifetime repair guarantee.
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
-
-        <!-- NEWSLETTER / BESPOKE INQUIRY BANNER -->
-        <section class="py-20 bg-gradient-to-r from-leather-900 via-noir to-leather-950 border-b border-surfaceBorder text-center">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                <i class="fa-solid fa-envelope-open-text text-3xl text-amberGold mb-4"></i>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">Join The Atelier Circle</h2>
-                <p class="text-leather-300 text-sm mt-2 mb-8">Receive early access to limited small-batch hides, vault releases, and 10% off your first custom order.</p>
-                
-                <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                    <input type="email" required placeholder="Enter your email address" class="flex-grow px-5 py-3.5 rounded-xl bg-surface border border-surfaceBorder text-white text-sm focus:outline-none focus:border-amberGold">
-                    <button type="submit" class="px-6 py-3.5 bg-amberGold hover:bg-amber-400 text-noir font-bold text-xs uppercase tracking-wider rounded-xl transition-colors shrink-0">
-                        Subscribe
-                    </button>
-                </form>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-noir py-12 border-t border-surfaceBorder text-leather-400 text-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full border border-leather-600 bg-leather-900 flex items-center justify-center text-amberGold font-serif font-bold text-sm">
-                    V
-                </div>
-                <span class="font-serif text-lg font-bold text-white tracking-widest">VALENTI & CO.</span>
-            </div>
-
-            <p>&copy; 2026 VALENTI & CO. Leathercraft Studio. All Rights Reserved. Hosted via GitHub Pages.</p>
-
-            <div class="flex items-center space-x-6 text-lg">
-                <a href="#" class="hover:text-amberGold transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="hover:text-amberGold transition-colors"><i class="fa-brands fa-pinterest"></i></a>
-                <a href="#" class="hover:text-amberGold transition-colors"><i class="fa-brands fa-youtube"></i></a>
-            </div>
+    <div class="grid">
+      <!-- Model 1 -->
+      <div class="card selected" onclick="selectModel(this, 0)">
+        <img src="photo1.png" alt="Minimalist Cardholder">
+        <div class="card-content">
+          <div id="m0-title" class="card-title">01 / Minimalist Cardholder</div>
+          <div id="m0-desc" class="card-desc">Holds 4–6 cards plus folded cash. Hand-stitched full grain leather.</div>
+          <div class="card-price">250,000 VND</div>
+          <button class="select-btn">Selected</button>
         </div>
+      </div>
+
+      <!-- Model 2 -->
+      <div class="card" onclick="selectModel(this, 1)">
+        <img src="photo2.png" alt="Slim Bifold Wallet">
+        <div class="card-content">
+          <div id="m1-title" class="card-title">02 / Slim Bifold Wallet</div>
+          <div id="m1-desc" class="card-desc">Classic bifold structure without the bulk. 6 card slots + full bill pocket.</div>
+          <div class="card-price">380,000 VND</div>
+          <button class="select-btn">Select Model</button>
+        </div>
+      </div>
+
+      <!-- Model 3 -->
+      <div class="card" onclick="selectModel(this, 2)">
+        <img src="photo3.png" alt="Pocket Coin & Card Sleeve">
+        <div class="card-content">
+          <div id="m2-title" class="card-title">03 / Pocket Coin & Card Sleeve</div>
+          <div id="m2-desc" class="card-desc">Compact envelope style with snap button closure. Fits coins, keys, and cards.</div>
+          <div class="card-price">290,000 VND</div>
+          <button class="select-btn">Select Model</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Order Bar -->
+    <div class="action-panel">
+      <a id="order-link" class="action-btn" href="https://www.threads.net" target="_blank">
+        DM on Threads to Order: Minimalist Cardholder
+      </a>
+    </div>
+
+    <footer>
+      <p id="connect-text">Connect with me:</p>
+      <p style="margin-top: 6px;">
+        <a href="https://www.threads.net" target="_blank">Threads</a> • 
+        <a id="faq-link" href="https://phamminhdung.tech">Back to FAQ</a>
+      </p>
     </footer>
+  </div>
 
-    <!-- CART SLIDE-OVER DRAWER MODAL -->
-    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
-        <!-- Backdrop -->
-        <div onclick="closeCart()" class="absolute inset-0 bg-black/70 backdrop-blur-sm pointer-events-auto"></div>
+  <script>
+    const THREADS_URL = "https://www.threads.net"; 
+    let currentTheme = 'light';
+    let currentLang = 'en';
+    let selectedIndex = 0;
 
-        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10 pointer-events-auto">
-            <div class="w-screen max-w-md bg-surface border-l border-surfaceBorder shadow-2xl flex flex-col">
-                
-                <!-- Drawer Header -->
-                <div class="p-6 border-b border-surfaceBorder flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-bag-shopping text-amberGold"></i>
-                        <h3 class="font-serif text-xl font-bold text-white">Your Shopping Bag</h3>
-                    </div>
-                    <button onclick="closeCart()" class="text-leather-400 hover:text-white p-2">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
+    const data = {
+      en: {
+        headerTitle: "handcrafted leather",
+        subtext: "Minimalist cardholders & wallets built to last.",
+        infoBox: "<strong>How to buy:</strong> Select a model below and click order. It will direct you straight to my <strong>Threads inbox</strong> to confirm details and finish your order.",
+        select: "Select Model",
+        selected: "Selected",
+        dmPrefix: "DM on Threads to Order: ",
+        connect: "Connect with me:",
+        backFaq: "Back to FAQ",
+        langBtn: "VIE",
+        models: [
+          { title: "01 / Minimalist Cardholder", desc: "Holds 4–6 cards plus folded cash. Hand-stitched full grain leather." },
+          { title: "02 / Slim Bifold Wallet", desc: "Classic bifold structure without the bulk. 6 card slots + full bill pocket." },
+          { title: "03 / Pocket Coin & Card Sleeve", desc: "Compact envelope style with snap button closure. Fits coins, keys, and cards." }
+        ]
+      },
+      vi: {
+        headerTitle: "đồ da thủ công",
+        subtext: "Ví & bóp đựng thẻ tối giản, thiết kế bền bỉ.",
+        infoBox: "<strong>Cách mua hàng:</strong> Chọn mẫu bên dưới và ấn đặt hàng để nhắn tin trực tiếp qua <strong>Threads inbox</strong> hoàn tất đơn hàng.",
+        select: "Chọn mẫu",
+        selected: "Đã chọn",
+        dmPrefix: "Nhắn Threads để đặt hàng: ",
+        connect: "Kết nối với mình:",
+        backFaq: "Quay lại FAQ",
+        langBtn: "ENG",
+        models: [
+          { title: "01 / Ví đựng thẻ tối giản", desc: "Sức chứa 4–6 thẻ và tiền gấp gọn. Da tấm khâu tay thủ công." },
+          { title: "02 / Ví gập Slim Bifold", desc: "Kiểu gập cổ điển mỏng nhẹ. 6 ngăn thẻ + 1 ngăn tiền mặt." },
+          { title: "03 / Bao da khuy bấm đa năng", desc: "Dạng phong bì nhỏ gọn. Đựng thẻ, tiền xu hoặc chìa khóa." }
+        ]
+      }
+    };
 
-                <!-- Cart Items List Container -->
-                <div id="cartItemsList" class="flex-grow p-6 overflow-y-auto space-y-4">
-                    <!-- Javascript populates cart items here -->
-                </div>
+    function toggleTheme() {
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      document.getElementById('theme-toggle').innerText = currentTheme === 'light' ? '🌙 Dark' : '☀️ Light';
+    }
 
-                <!-- Drawer Footer & Checkout -->
-                <div class="p-6 border-t border-surfaceBorder bg-noir space-y-4">
-                    <div class="space-y-1.5 text-xs">
-                        <div class="flex justify-between text-leather-300">
-                            <span>Subtotal</span>
-                            <span id="cartSubtotal" class="font-bold text-white">$0.00</span>
-                        </div>
-                        <div class="flex justify-between text-leather-300">
-                            <span>Shipping</span>
-                            <span class="text-emerald-400 uppercase font-semibold">Free</span>
-                        </div>
-                    </div>
+    function toggleLang() {
+      currentLang = currentLang === 'en' ? 'vi' : 'en';
+      renderText();
+    }
 
-                    <div class="pt-2 border-t border-surfaceBorder flex justify-between text-base font-serif font-bold text-white">
-                        <span>Estimated Total</span>
-                        <span id="cartTotal" class="text-amberGold">$0.00</span>
-                    </div>
+    function selectModel(cardElem, index) {
+      selectedIndex = index;
+      document.querySelectorAll('.card').forEach((c, idx) => {
+        c.classList.remove('selected');
+        c.querySelector('.select-btn').innerText = data[currentLang].select;
+      });
 
-                    <button onclick="proceedToCheckout()" class="w-full py-4 bg-gradient-to-r from-amberGold to-amber-600 hover:from-amber-400 hover:to-amber-500 text-noir font-bold text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-lock"></i> Proceed To Checkout
-                    </button>
-                </div>
+      cardElem.classList.add('selected');
+      cardElem.querySelector('.select-btn').innerText = data[currentLang].selected;
+      updateOrderButton();
+    }
 
-            </div>
-        </div>
-    </div>
+    function updateOrderButton() {
+      const link = document.getElementById('order-link');
+      const modelTitle = data[currentLang].models[selectedIndex].title;
+      link.innerText = `${data[currentLang].dmPrefix}${modelTitle}`;
+      link.href = THREADS_URL;
+    }
 
-    <!-- QUICK VIEW PRODUCT MODAL -->
-    <div id="quickViewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
-        <div class="bg-surface border border-surfaceBorder rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl">
-            <button onclick="closeQuickView()" class="absolute top-4 right-4 text-leather-400 hover:text-white p-2">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div id="quickViewContent">
-                <!-- Javascript dynamically renders details -->
-            </div>
-        </div>
-    </div>
+    function renderText() {
+      const t = data[currentLang];
+      document.getElementById('lang-toggle').innerText = t.langBtn;
+      document.getElementById('header-title').innerText = t.headerTitle;
+      document.getElementById('subtext').innerText = t.subtext;
+      document.getElementById('info-box').innerHTML = t.infoBox;
+      document.getElementById('connect-text').innerText = t.connect;
+      document.getElementById('faq-link').innerText = t.backFaq;
 
-    <!-- CHECKOUT SIMULATION MODAL -->
-    <div id="checkoutModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
-        <div class="bg-surface border border-surfaceBorder rounded-3xl max-w-md w-full p-6 text-center space-y-5">
-            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto text-2xl">
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <h3 class="font-serif text-2xl font-bold text-white">Order Simulated!</h3>
-            <p class="text-leather-300 text-xs leading-relaxed">
-                Thank you for trying out your handcrafted store! In production, this connects to Shopify, Stripe, or WooCommerce.
-            </p>
-            <div class="bg-noir p-4 rounded-xl border border-surfaceBorder text-left text-xs text-leather-300 space-y-1">
-                <p class="text-white font-medium mb-1">Order Summary:</p>
-                <div id="checkoutSummaryList"></div>
-            </div>
-            <button onclick="closeCheckout()" class="w-full py-3 bg-amberGold text-noir font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-amber-400 transition-colors">
-                Return to Shop
-            </button>
-        </div>
-    </div>
+      t.models.forEach((m, idx) => {
+        document.getElementById(`m${idx}-title`).innerText = m.title;
+        document.getElementById(`m${idx}-desc`).innerText = m.desc;
+      });
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-leather-800 text-white px-5 py-3.5 rounded-2xl border border-leather-600/60 shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
-        <i class="fa-solid fa-circle-check text-amberGold"></i>
-        <span id="toastMsg" class="text-xs font-medium">Item added to bag</span>
-    </div>
+      document.querySelectorAll('.card').forEach((card, idx) => {
+        const btn = card.querySelector('.select-btn');
+        btn.innerText = (idx === selectedIndex) ? t.selected : t.select;
+      });
 
-    <!-- JAVASCRIPT APP LOGIC -->
-    <script>
-        // --- 1. Product Data Catalog ---
-        const products = [
-            {
-                id: 1,
-                name: "The Savoy Card Holder",
-                category: "cardholders",
-                price: 58,
-                rating: 4.9,
-                reviews: 48,
-                badge: "Bestseller",
-                image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=800",
-                description: "Minimalist 4-slot cardholder crafted from vegetable-tanned Italian leather hide. Features a central cash pocket.",
-                colors: ["#8C4E28", "#1C1514", "#4A2212"]
-            },
-            {
-                id: 2,
-                name: "The Florentine Slim Bifold",
-                category: "bifolds",
-                price: 85,
-                rating: 5.0,
-                reviews: 32,
-                badge: "Patina Edition",
-                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800",
-                description: "Ultra-thin traditional bifold wallet. Holds up to 10 cards and full-size banknotes without standard pocket bulk.",
-                colors: ["#4A2212", "#8C4E28"]
-            },
-            {
-                id: 3,
-                name: "Passport Executive Folio",
-                category: "accessories",
-                price: 110,
-                rating: 4.8,
-                reviews: 19,
-                badge: "Travel Series",
-                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800",
-                description: "Designed for global travelers. Accommodates passport, international currency, tickets, and up to 4 credit cards.",
-                colors: ["#1C1514", "#8C4E28"]
-            },
-            {
-                id: 4,
-                name: "Saddle Stitch Coin & Zip Pouch",
-                category: "cardholders",
-                price: 45,
-                rating: 4.7,
-                reviews: 27,
-                badge: "Compact",
-                image: "https://images.unsplash.com/photo-1606503153255-59d8b8b82176?auto=format&fit=crop&q=80&w=800",
-                description: "Features a Japanese YKK antique brass zipper. Ideal for loose coins, folded bills, key fobs, and receipts.",
-                colors: ["#8C4E28", "#2B3627"]
-            },
-            {
-                id: 5,
-                name: "Heritage Brass Key Organizer",
-                category: "accessories",
-                price: 34,
-                rating: 4.9,
-                reviews: 64,
-                badge: "Everyday Carry",
-                image: "https://images.unsplash.com/photo-1614315517650-3771cf72d18a?auto=format&fit=crop&q=80&w=800",
-                description: "Eliminates key jingle. Holds 3 to 7 standard keys neatly wrapped in full-grain Tuscan harness leather.",
-                colors: ["#1C1514", "#4A2212"]
-            },
-            {
-                id: 6,
-                name: "The Atelier Minimalist Sleeve",
-                category: "cardholders",
-                price: 42,
-                rating: 4.9,
-                reviews: 53,
-                badge: "Ultra Slim",
-                image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&q=80&w=800",
-                description: "Our thinnest sleeve ever. Engineered for front-pocket carry holding 3 core cards and quick access cash slot.",
-                colors: ["#2B3627", "#8C4E28"]
-            }
-        ];
-
-        // --- 2. State Management ---
-        let cart = [];
-        let activeFilter = 'all';
-
-        // --- 3. Render Product Showcase Grid ---
-        function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-
-            const filtered = activeFilter === 'all' 
-                ? products 
-                : products.filter(p => p.category === activeFilter);
-
-            filtered.forEach(product => {
-                const card = document.createElement('div');
-                card.className = "bg-noir rounded-3xl border border-surfaceBorder overflow-hidden group hover:border-amberGold/40 transition-all duration-300 flex flex-col";
-                card.innerHTML = `
-                    <div class="relative overflow-hidden aspect-[4/3] bg-surfaceCard">
-                        <span class="absolute top-3 left-3 z-10 text-[10px] font-bold uppercase tracking-widest bg-leather-800/90 text-amberGold px-3 py-1 rounded-full border border-leather-600/50">
-                            ${product.badge}
-                        </span>
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-95">
-                        
-                        <!-- Quick View Hover Overlay -->
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 p-4">
-                            <button onclick="openQuickView(${product.id})" class="px-4 py-2 bg-surface/90 hover:bg-surface border border-surfaceBorder text-xs text-white font-medium rounded-xl transition-all">
-                                Quick View
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="p-6 flex flex-col flex-grow justify-between">
-                        <div>
-                            <div class="flex items-center justify-between text-xs text-leather-400 mb-1">
-                                <span class="capitalize">${product.category}</span>
-                                <span class="text-amberGold"><i class="fa-solid fa-star text-[10px]"></i> ${product.rating} (${product.reviews})</span>
-                            </div>
-                            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amberGold transition-colors">${product.name}</h3>
-                            <p class="text-xs text-leather-300 mt-2 line-clamp-2">${product.description}</p>
-                        </div>
-
-                        <div class="mt-6 pt-4 border-t border-surfaceBorder/60 flex items-center justify-between">
-                            <span class="font-serif text-2xl font-bold text-white">$${product.price}</span>
-                            <button onclick="addToCart(${product.id})" class="px-4 py-2 bg-leather-800 hover:bg-amberGold hover:text-noir text-amberGold border border-leather-600/60 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2">
-                                <i class="fa-solid fa-plus text-[10px]"></i> Add To Bag
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // --- 4. Filtering Logic ---
-        function filterProducts(category) {
-            activeFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-leather-800', 'text-white', 'border', 'border-leather-600/40');
-                btn.classList.add('text-leather-300');
-            });
-            event.target.classList.add('active', 'bg-leather-800', 'text-white', 'border', 'border-leather-600/40');
-            event.target.classList.remove('text-leather-300');
-            renderProducts();
-        }
-
-        // --- 5. Customizer Interactive SVG Logic ---
-        function updateLeather(bodyColor, pocket1Color, pocket2Color, name) {
-            document.getElementById('svgLeatherBody').setAttribute('fill', bodyColor);
-            document.getElementById('svgPocket1').setAttribute('fill', pocket1Color);
-            document.getElementById('svgPocket2').setAttribute('fill', pocket2Color);
-            document.getElementById('summaryHide').innerText = name;
-            toggleToast(`Hide updated to ${name}`);
-        }
-
-        function updateThread(threadColor, name) {
-            document.getElementById('svgStitchLine').setAttribute('stroke', threadColor);
-            document.getElementById('svgStitchLine2').setAttribute('stroke', threadColor);
-            document.getElementById('summaryThread').innerText = name;
-            toggleToast(`Thread updated to ${name}`);
-        }
-
-        function updateMonogramText(val) {
-            const formatted = val.toUpperCase();
-            document.getElementById('svgMonogram').textContent = formatted || 'PMD';
-        }
-
-        function updateFoil(className) {
-            const mono = document.getElementById('svgMonogram');
-            mono.setAttribute('class', className);
-            toggleToast('Embossing style updated');
-        }
-
-        function addCustomToCart() {
-            const monogram = document.getElementById('monogramInput').value.toUpperCase() || 'PMD';
-            const hide = document.getElementById('summaryHide').innerText;
-            const thread = document.getElementById('summaryThread').innerText;
-
-            const customItem = {
-                id: 'custom-' + Date.now(),
-                name: `Custom Wallet (${monogram})`,
-                price: 65,
-                image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&q=80&w=400",
-                details: `${hide} leather • ${thread} thread • Initials: ${monogram}`
-            };
-
-            cart.push(customItem);
-            updateCartUI();
-            openCart();
-            toggleToast("Custom Bespoke Piece added to bag!");
-        }
-
-        // --- 6. Cart Drawer & Calculations ---
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                cart.push({ ...product, details: "Standard Finish" });
-                updateCartUI();
-                toggleToast(`${product.name} added to bag!`);
-            }
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const badge = document.getElementById('cartBadge');
-            badge.innerText = cart.length;
-
-            const list = document.getElementById('cartItemsList');
-            list.innerHTML = '';
-
-            if (cart.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-16 text-leather-400">
-                        <i class="fa-solid fa-bag-shopping text-4xl text-leather-700 mb-3"></i>
-                        <p class="text-sm font-serif">Your shopping bag is empty.</p>
-                    </div>
-                `;
-            } else {
-                cart.forEach((item, index) => {
-                    const el = document.createElement('div');
-                    el.className = "flex items-center gap-4 bg-noir p-3.5 rounded-2xl border border-surfaceBorder";
-                    el.innerHTML = `
-                        <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover shrink-0 border border-surfaceBorder">
-                        <div class="flex-grow">
-                            <h4 class="text-sm font-medium text-white">${item.name}</h4>
-                            <p class="text-[11px] text-leather-400 mt-0.5">${item.details}</p>
-                            <span class="text-xs font-bold text-amberGold mt-1 block">$${item.price}</span>
-                        </div>
-                        <button onclick="removeFromCart(${index})" class="text-leather-400 hover:text-red-400 p-2 text-xs">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    `;
-                    list.appendChild(el);
-                });
-            }
-
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('cartSubtotal').innerText = `$${total.toFixed(2)}`;
-            document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
-        }
-
-        function openCart() {
-            const drawer = document.getElementById('cartDrawer');
-            drawer.classList.remove('opacity-0', 'pointer-events-none');
-        }
-
-        function closeCart() {
-            const drawer = document.getElementById('cartDrawer');
-            drawer.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        // --- 7. Quick View Modal ---
-        function openQuickView(id) {
-            const p = products.find(prod => prod.id === id);
-            if (!p) return;
-
-            const content = document.getElementById('quickViewContent');
-            content.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                    <img src="${p.image}" class="w-full h-64 object-cover rounded-2xl border border-surfaceBorder">
-                    <div class="space-y-4">
-                        <span class="text-amberGold text-xs uppercase tracking-widest font-bold">${p.badge}</span>
-                        <h3 class="font-serif text-2xl font-bold text-white">${p.name}</h3>
-                        <p class="text-xs text-leather-300 leading-relaxed">${p.description}</p>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-leather-400">Hide Color Options:</span>
-                            <div class="flex gap-1.5">
-                                ${p.colors.map(c => `<span class="w-4 h-4 rounded-full border border-white/20" style="background:${c}"></span>`).join('')}
-                            </div>
-                        </div>
-                        <div class="pt-4 flex items-center justify-between border-t border-surfaceBorder">
-                            <span class="font-serif text-3xl font-bold text-amberGold">$${p.price}</span>
-                            <button onclick="addToCart(${p.id}); closeQuickView();" class="px-6 py-3 bg-amberGold text-noir font-bold rounded-xl text-xs uppercase tracking-wider hover:bg-amber-400 transition-colors">
-                                Add To Bag
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('quickViewModal').classList.remove('hidden');
-        }
-
-        function closeQuickView() {
-            document.getElementById('quickViewModal').classList.add('hidden');
-        }
-
-        // --- 8. Checkout Simulation ---
-        function proceedToCheckout() {
-            if (cart.length === 0) {
-                toggleToast("Please add items to your bag first!");
-                return;
-            }
-            closeCart();
-
-            const summary = document.getElementById('checkoutSummaryList');
-            summary.innerHTML = cart.map(i => `<div class="flex justify-between"><span>${i.name}</span><span class="text-amberGold">$${i.price}</span></div>`).join('');
-            
-            document.getElementById('checkoutModal').classList.remove('hidden');
-        }
-
-        function closeCheckout() {
-            cart = [];
-            updateCartUI();
-            document.getElementById('checkoutModal').classList.add('hidden');
-        }
-
-        // --- 9. FAQ Accordion ---
-        function toggleFaq(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('i');
-            
-            content.classList.toggle('hidden');
-            icon.classList.toggle('rotate-180');
-        }
-
-        // --- 10. Toast Notification Helper ---
-        function toggleToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        function handleSubscribe(e) {
-            e.preventDefault();
-            toggleToast("Welcome to Atelier Circle! Check your inbox.");
-            e.target.reset();
-        }
-
-        // Initialize grid on DOM ready
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts();
-            updateCartUI();
-        });
-    </script>
+      updateOrderButton();
+    }
+  </script>
 </body>
 </html>
