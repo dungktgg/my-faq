@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>vincent leathercraft — catalog</title>
   <style>
     @font-face {
       font-family: "DINNextRoundedLTW01-Regular";
-      src: url("/DINfont.ttf") format("truetype");
+      src: url("DINfont.ttf") format("truetype");
       font-weight: normal;
       font-style: normal;
       font-display: swap;
@@ -23,14 +23,13 @@
       --info-text: #444444;
       --btn-bg: #f4f4f4;
       --btn-text: #111111;
-      --btn-border: #ddd;
+      --btn-border: #dddddd;
       --accent-bg: #000000;
       --accent-text: #ffffff;
       --shadow-color: rgba(0, 0, 0, 0.08);
       --main-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
-    /* apply DIN font strictly for english version */
     [data-lang="en"] {
       --main-font: "DINNextRoundedLTW01-Regular", -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -56,8 +55,17 @@
       margin: 0;
       padding: 0;
       transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    /* Lowercase is applied to page chrome only, not to user-copyable content */
+    body,
+    h1, h2, p, label, button, a, strong, span, div {
       text-transform: lowercase;
     }
+    .keep-case {
+      text-transform: none;
+    }
+
     body {
       font-family: var(--main-font);
       background-color: var(--bg-color);
@@ -65,16 +73,19 @@
       padding: 40px 20px;
       line-height: 1.6;
     }
+
     .container {
       max-width: 680px;
       margin: 0 auto;
     }
+
     .top-bar {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
       margin-bottom: 20px;
     }
+
     .control-btn {
       font-family: inherit;
       background: var(--btn-bg);
@@ -86,21 +97,25 @@
       font-weight: 600;
       cursor: pointer;
     }
+
     header {
       margin-bottom: 32px;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 16px;
     }
+
     h1 {
       font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
+
     .subtext {
       color: var(--subtext-color);
       font-size: 0.95rem;
       margin-top: 4px;
     }
+
     .info-box {
       background: var(--info-bg);
       padding: 14px 18px;
@@ -109,12 +124,14 @@
       color: var(--info-text);
       margin-bottom: 32px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 28px;
       margin-bottom: 36px;
     }
+
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -123,10 +140,12 @@
       cursor: pointer;
       user-select: none;
     }
+
     .card.selected {
       border-color: var(--text-color);
       box-shadow: 0 0 0 2px var(--text-color);
     }
+
     .card img {
       width: 100%;
       height: 280px;
@@ -134,23 +153,28 @@
       display: block;
       background-color: var(--btn-bg);
     }
+
     .card-content {
       padding: 16px 20px;
     }
+
     .card-title {
       font-size: 1.1rem;
       font-weight: 600;
     }
+
     .card-desc {
       color: var(--subtext-color);
       font-size: 0.9rem;
       margin-top: 4px;
     }
+
     .card-price {
       font-weight: 700;
       margin-top: 8px;
       font-size: 1rem;
     }
+
     .select-btn {
       font-family: inherit;
       margin-top: 12px;
@@ -163,11 +187,13 @@
       font-weight: 600;
       cursor: pointer;
     }
+
     .card.selected .select-btn {
       background: var(--accent-bg);
       color: var(--accent-text);
       border-color: var(--accent-bg);
     }
+
     .action-panel {
       position: sticky;
       bottom: 20px;
@@ -178,22 +204,28 @@
       box-shadow: 0 10px 25px var(--shadow-color);
       margin-bottom: 48px;
     }
+
     .order-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
+      gap: 12px;
     }
+
     .order-label {
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--subtext-color);
     }
+
     .total-badge {
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--text-color);
+      white-space: nowrap;
     }
+
     .order-textarea {
       width: 100%;
       height: 110px;
@@ -207,11 +239,14 @@
       resize: none;
       margin-bottom: 12px;
       outline: none;
+      text-transform: none;
     }
+
     .button-group {
       display: flex;
       gap: 10px;
     }
+
     .btn-copy {
       flex: 1;
       font-family: inherit;
@@ -225,6 +260,7 @@
       cursor: pointer;
       text-align: center;
     }
+
     .btn-threads {
       flex: 2;
       font-family: inherit;
@@ -239,7 +275,6 @@
       text-align: center;
     }
 
-    /* payment section */
     .payment-section {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -248,15 +283,18 @@
       text-align: center;
       margin-bottom: 40px;
     }
+
     .payment-section h2 {
       font-size: 1.2rem;
       margin-bottom: 6px;
     }
-    .payment-section p {
+
+    .payment-section > p {
       font-size: 0.9rem;
       color: var(--subtext-color);
       margin-bottom: 16px;
     }
+
     .qr-container img {
       width: 220px;
       height: 220px;
@@ -267,6 +305,7 @@
       padding: 8px;
       margin-bottom: 16px;
     }
+
     .bank-details {
       font-size: 0.95rem;
       line-height: 1.8;
@@ -276,6 +315,7 @@
       display: inline-block;
       text-align: left;
     }
+
     .copy-small-btn {
       font-family: inherit;
       background: var(--btn-bg);
@@ -291,6 +331,10 @@
       vertical-align: middle;
     }
 
+    .account-number {
+      text-transform: none;
+    }
+
     footer {
       margin-top: 48px;
       text-align: center;
@@ -299,6 +343,7 @@
       border-top: 1px solid var(--border-color);
       padding-top: 20px;
     }
+
     footer a {
       color: var(--text-color);
       text-decoration: underline;
@@ -309,276 +354,390 @@
 <body>
 
   <div class="container">
-    <!-- Top Controls Bar -->
     <div class="top-bar">
-      <button id="lang-toggle" class="control-btn" onclick="toggleLang()">🇻🇳 vietnamese</button>
-      <button id="theme-toggle" class="control-btn" onclick="toggleTheme()">🌙 dark</button>
+      <button id="lang-toggle" class="control-btn" type="button"></button>
+      <button id="theme-toggle" class="control-btn" type="button"></button>
     </div>
 
     <header>
-      <h1 id="header-title">handcrafted leather</h1>
-      <p id="subtext" class="subtext">minimalist cardholders & wallets built to last.</p>
+      <h1 id="header-title"></h1>
+      <p id="subtext" class="subtext"></p>
     </header>
 
-    <div id="info-box" class="info-box">
-      <strong>how to buy:</strong> tap multiple products below to select them. copy your generated message and send it to my threads inbox.
-    </div>
+    <div id="info-box" class="info-box"></div>
 
-    <div class="grid">
-      <!-- Model 1 -->
-      <div class="card selected" onclick="toggleSelectModel(this, 0)">
-        <img src="photo1.png" alt="minimalist cardholder">
-        <div class="card-content">
-          <div id="m0-title" class="card-title">01 / minimalist cardholder</div>
-          <div id="m0-desc" class="card-desc">holds 4–6 cards plus folded cash. hand-stitched full grain leather.</div>
-          <div class="card-price">250,000 vnd</div>
-          <button class="select-btn">selected</button>
-        </div>
-      </div>
+    <div id="products" class="grid"></div>
 
-      <!-- Model 2 -->
-      <div class="card" onclick="toggleSelectModel(this, 1)">
-        <img src="photo2.png" alt="slim bifold wallet">
-        <div class="card-content">
-          <div id="m1-title" class="card-title">02 / slim bifold wallet</div>
-          <div id="m1-desc" class="card-desc">classic bifold structure without the bulk. 6 card slots + full bill pocket.</div>
-          <div class="card-price">380,000 vnd</div>
-          <button class="select-btn">select model</button>
-        </div>
-      </div>
-
-      <!-- Model 3 -->
-      <div class="card" onclick="toggleSelectModel(this, 2)">
-        <img src="photo3.png" alt="pocket coin & card sleeve">
-        <div class="card-content">
-          <div id="m2-title" class="card-title">03 / pocket coin & card sleeve</div>
-          <div id="m2-desc" class="card-desc">compact envelope style with snap button closure. fits coins, keys, and cards.</div>
-          <div class="card-price">290,000 vnd</div>
-          <button class="select-btn">select model</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sticky Order Summary Bar -->
     <div class="action-panel">
       <div class="order-header-row">
-        <span id="order-label" class="order-label">your order message (auto-updated):</span>
-        <span id="total-price-badge" class="total-badge">total: 250,000 vnd</span>
+        <span id="order-label" class="order-label"></span>
+        <span id="total-badge" class="total-badge"></span>
       </div>
-      
-      <textarea id="order-text" class="order-textarea" readonly></textarea>
-      
+
+      <textarea id="order-text" class="order-textarea keep-case" readonly></textarea>
+
       <div class="button-group">
-        <button id="copy-btn" class="btn-copy" onclick="copyOrderText()">📋 copy text</button>
-        <a id="threads-link" class="btn-threads" href="https://www.threads.net/@vincentphmd" target="_blank">
-          open threads dm ↗
-        </a>
+        <button id="copy-btn" class="btn-copy" type="button"></button>
+        <a id="threads-link" class="btn-threads" target="_blank" rel="noopener noreferrer"></a>
       </div>
     </div>
 
-    <!-- Bank Details & QR Section -->
     <div class="payment-section">
-      <h2 id="payment-title">payment & bank info</h2>
-      <p id="payment-sub">scan qr or use bank details below for payment</p>
+      <h2 id="payment-title"></h2>
+      <p id="payment-sub"></p>
 
       <div class="qr-container">
-        <img src="qrcode.jpg" alt="payment qr code">
+        <img src="qrcode.jpg" alt="payment qr code" />
       </div>
 
       <div class="bank-details">
-        <div><strong>account holder:</strong> pham minh dung</div>
-        <div><strong>bank:</strong> tpbank</div>
+        <div><strong id="lbl-holder"></strong> <span id="val-holder" class="keep-case"></span></div>
+        <div><strong id="lbl-bank"></strong> <span id="val-bank" class="keep-case"></span></div>
         <div>
-          <strong>account number:</strong> 
-          <span id="account-number">0000 1234 567</span>
-          <button id="copy-acc-btn" class="copy-small-btn" onclick="copyAccountNumber()">📋 copy</button>
+          <strong id="lbl-account"></strong>
+          <span id="account-number" class="account-number"></span>
+          <button id="copy-acc-btn" class="copy-small-btn" type="button"></button>
         </div>
       </div>
     </div>
 
     <footer>
-      <p id="connect-text">connect with me:</p>
+      <p id="connect-text"></p>
       <p style="margin-top: 6px;">
-        <a href="https://www.threads.net/@vincentphmd" target="_blank">threads</a> • 
-        <a id="faq-link" href="https://phamminhdung.tech">back to faq</a>
+        <a id="footer-threads" target="_blank" rel="noopener noreferrer"></a> •
+        <a id="faq-link" rel="noopener"></a>
       </p>
     </footer>
   </div>
 
   <script>
-    const THREADS_URL = "https://www.threads.net/@vincentphmd"; 
-    const prices = [250000, 380000, 290000];
-    
-    let currentTheme = 'light';
-    let currentLang = 'en';
-    let selectedIndices = new Set([0]);
+    /* ------------------------------------------------------------
+       CONFIG — edit prices, text, and payment details here only.
+       ------------------------------------------------------------ */
+    const CONFIG = {
+      threadsUrl: "https://www.threads.net/@vincentphmd",
+      faqUrl: "https://phamminhdung.tech",
+      bank: {
+        holder: "PHAM MINH DUNG",
+        bankName: "vib",
+        // TODO: replace with the real account number before publishing
+        accountNumber: "607809"
+      },
+      products: [
+        {
+          id: "cardholder",
+          price: 250000,
+          image: "photo1.png",
+          en: {
+            title: "01 / minimalist cardholder",
+            desc: "holds 4–6 cards plus folded cash. hand-stitched full grain leather."
+          },
+          vi: {
+            title: "01 / ví đựng thẻ tối giản",
+            desc: "sức chứa 4–6 thẻ và tiền gấp gọn. da tấm khâu tay thủ công."
+          }
+        },
+        {
+          id: "bifold",
+          price: 380000,
+          image: "photo2.png",
+          en: {
+            title: "02 / slim bifold wallet",
+            desc: "classic bifold structure without the bulk. 6 card slots + full bill pocket."
+          },
+          vi: {
+            title: "02 / ví gập slim bifold",
+            desc: "kiểu gập cổ điển mỏng nhẹ. 6 ngăn thẻ + 1 ngăn tiền mặt."
+          }
+        },
+        {
+          id: "coin-sleeve",
+          price: 290000,
+          image: "photo3.png",
+          en: {
+            title: "03 / pocket coin & card sleeve",
+            desc: "compact envelope style with snap button closure. fits coins, keys, and cards."
+          },
+          vi: {
+            title: "03 / bao da khuy bấm đa năng",
+            desc: "dạng phong bì nhỏ gọn. đựng thẻ, tiền xu hoặc chìa khóa."
+          }
+        }
+      ]
+    };
 
-    const data = {
+    const STRINGS = {
       en: {
+        langBtn: "🇻🇳 vietnamese",
+        themeToDark: "🌙 dark",
+        themeToLight: "☀️ light",
         headerTitle: "handcrafted leather",
         subtext: "minimalist cardholders & wallets built to last.",
-        infoBox: "<strong>how to buy:</strong> tap multiple products below to select them. copy your generated message and send it to my threads inbox.",
+        infoLabel: "how to buy:",
+        infoText: " tap multiple products below to select them. copy your generated message and send it to my threads inbox.",
         select: "select model",
         selected: "selected",
-        orderLabel: "your order message:",
-        totalLabel: "total: ",
-        copyBtn: "📋 copy text",
-        copiedText: "✓ copied!",
-        copyAccBtn: "📋 copy",
-        copiedAccText: "✓ copied!",
-        noSelection: "please select at least one product.",
+        orderLabel: "your order message (auto-updated):",
+        total: "total:",
+        copy: "📋 copy text",
+        copied: "✓ copied!",
+        copyAcc: "📋 copy",
         threadsBtn: "open threads dm ↗",
-        msgHeader: "hi vincent, i would like to order:\n",
-        msgTotalPrefix: "\ntotal price: ",
+        msgHeader: "hi vincent, i would like to order:",
+        msgTotal: "total price:",
         paymentTitle: "payment & bank info",
         paymentSub: "scan qr code or use bank details below for payment",
+        holderLabel: "account holder:",
+        bankLabel: "bank:",
+        accountLabel: "account number:",
         connect: "connect with me:",
+        threads: "threads",
         backFaq: "back to faq",
-        langBtn: "🇻🇳 vietnamese",
-        models: [
-          { title: "01 / minimalist cardholder", desc: "holds 4–6 cards plus folded cash. hand-stitched full grain leather." },
-          { title: "02 / slim bifold wallet", desc: "classic bifold structure without the bulk. 6 card slots + full bill pocket." },
-          { title: "03 / pocket coin & card sleeve", desc: "compact envelope style with snap button closure. fits coins, keys, and cards." }
-        ]
+        noSelection: "please select at least one product.",
+        altCardholder: "minimalist cardholder",
+        altBifold: "slim bifold wallet",
+        altCoin: "pocket coin & card sleeve",
+        altQr: "payment qr code"
       },
       vi: {
+        langBtn: "🇬🇧 english",
+        themeToDark: "🌙 tối",
+        themeToLight: "☀️ sáng",
         headerTitle: "đồ da thủ công",
         subtext: "ví & bóp đựng thẻ tối giản, thiết kế bền bỉ.",
-        infoBox: "<strong>cách mua hàng:</strong> bấm chọn nhiều sản phẩm bên dưới. sao chép tin nhắn tự tạo và gửi qua threads inbox.",
+        infoLabel: "cách mua hàng:",
+        infoText: " bấm chọn nhiều sản phẩm bên dưới. sao chép tin nhắn tự tạo và gửi qua threads inbox.",
         select: "chọn mẫu",
         selected: "đã chọn",
-        orderLabel: "tin nhắn đặt hàng:",
-        totalLabel: "tổng cộng: ",
-        copyBtn: "📋 sao chép",
-        copiedText: "✓ đã sao chép!",
-        copyAccBtn: "📋 sao chép",
-        copiedAccText: "✓ đã sao chép!",
-        noSelection: "vui lòng chọn ít nhất một sản phẩm.",
+        orderLabel: "tin nhắn đặt hàng (tự động cập nhật):",
+        total: "tổng cộng:",
+        copy: "📋 sao chép",
+        copied: "✓ đã sao chép!",
+        copyAcc: "📋 sao chép",
         threadsBtn: "mở threads dm ↗",
-        msgHeader: "chào vincent, mình muốn đặt hàng:\n",
-        msgTotalPrefix: "\ntổng chi phí: ",
+        msgHeader: "chào vincent, mình muốn đặt hàng:",
+        msgTotal: "tổng chi phí:",
         paymentTitle: "thông tin chuyển khoản & qr",
         paymentSub: "quét mã qr hoặc chuyển khoản theo thông tin bên dưới",
+        holderLabel: "chủ tài khoản:",
+        bankLabel: "ngân hàng:",
+        accountLabel: "số tài khoản:",
         connect: "kết nối với mình:",
+        threads: "threads",
         backFaq: "quay lại faq",
-        langBtn: "🇬🇧 english",
-        models: [
-          { title: "01 / ví đựng thẻ tối giản", desc: "sức chứa 4–6 thẻ và tiền gấp gọn. da tấm khâu tay thủ công." },
-          { title: "02 / ví gập slim bifold", desc: "kiểu gập cổ điển mỏng nhẹ. 6 ngăn thẻ + 1 ngăn tiền mặt." },
-          { title: "03 / bao da khuy bấm đa năng", desc: "dạng phong bì nhỏ gọn. đựng thẻ, tiền xu hoặc chìa khóa." }
-        ]
+        noSelection: "vui lòng chọn ít nhất một sản phẩm.",
+        altCardholder: "ví đựng thẻ tối giản",
+        altBifold: "ví gập slim bifold",
+        altCoin: "bao da khuy bấm đa năng",
+        altQr: "mã qr thanh toán"
       }
     };
 
+    const state = {
+      lang: "en",
+      theme: "light",
+      selected: new Set([0])
+    };
+
+    const el = (id) => document.getElementById(id);
+
     function formatVND(amount) {
-      return amount.toLocaleString('en-US') + ' vnd';
+      return amount.toLocaleString("en-US") + " vnd";
     }
 
-    function toggleTheme() {
-      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      document.getElementById('theme-toggle').innerText = currentTheme === 'light' ? '🌙 dark' : '☀️ light';
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     }
 
-    function toggleLang() {
-      currentLang = currentLang === 'en' ? 'vi' : 'en';
-      renderText();
+    function t() {
+      return STRINGS[state.lang];
     }
 
-    function toggleSelectModel(cardElem, index) {
-      if (selectedIndices.has(index)) {
-        if (selectedIndices.size > 1) {
-          selectedIndices.delete(index);
-          cardElem.classList.remove('selected');
-          cardElem.querySelector('.select-btn').innerText = data[currentLang].select;
-        }
-      } else {
-        selectedIndices.add(index);
-        cardElem.classList.add('selected');
-        cardElem.querySelector('.select-btn').innerText = data[currentLang].selected;
-      }
-      updateOrderText();
+    function renderProducts() {
+      const s = t();
+      const html = CONFIG.products.map((p, idx) => {
+        const info = p[state.lang];
+        const isSelected = state.selected.has(idx);
+        const alt = [s.altCardholder, s.altBifold, s.altCoin][idx] || info.title;
+        return `
+          <div class="card${isSelected ? " selected" : ""}" data-index="${idx}">
+            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(alt)}" />
+            <div class="card-content">
+              <div class="card-title">${escapeHtml(info.title)}</div>
+              <div class="card-desc">${escapeHtml(info.desc)}</div>
+              <div class="card-price">${formatVND(p.price)}</div>
+              <button class="select-btn" type="button">${isSelected ? s.selected : s.select}</button>
+            </div>
+          </div>`;
+      }).join("");
+      el("products").innerHTML = html;
     }
 
     function updateOrderText() {
-      const textarea = document.getElementById('order-text');
-      const badge = document.getElementById('total-price-badge');
-      const t = data[currentLang];
+      const s = t();
+      const textarea = el("order-text");
+      const badge = el("total-badge");
 
-      if (selectedIndices.size === 0) {
-        textarea.value = t.noSelection;
-        badge.innerText = `${t.totalLabel}0 vnd`;
+      if (state.selected.size === 0) {
+        textarea.value = s.noSelection;
+        badge.textContent = `${s.total} 0 vnd`;
         return;
       }
 
-      let totalPrice = 0;
-      let list = Array.from(selectedIndices)
+      let total = 0;
+      const lines = [...state.selected]
         .sort((a, b) => a - b)
-        .map(idx => {
-          totalPrice += prices[idx];
-          return `- ${t.models[idx].title} (${formatVND(prices[idx])})`;
-        })
-        .join('\n');
+        .map((idx) => {
+          const p = CONFIG.products[idx];
+          total += p.price;
+          return `- ${p[state.lang].title} (${formatVND(p.price)})`;
+        });
 
-      const formattedTotal = formatVND(totalPrice);
-      badge.innerText = `${t.totalLabel}${formattedTotal}`;
-      textarea.value = `${t.msgHeader}${list}\n${t.msgTotalPrefix}${formattedTotal}`;
+      const formattedTotal = formatVND(total);
+      badge.textContent = `${s.total} ${formattedTotal}`;
+      textarea.value = `${s.msgHeader}\n${lines.join("\n")}\n${s.msgTotal} ${formattedTotal}`;
     }
 
-    function copyOrderText() {
-      const textarea = document.getElementById('order-text');
-      textarea.select();
-      navigator.clipboard.writeText(textarea.value).then(() => {
-        const copyBtn = document.getElementById('copy-btn');
-        copyBtn.innerText = data[currentLang].copiedText;
-        setTimeout(() => {
-          copyBtn.innerText = data[currentLang].copyBtn;
-        }, 2000);
-      });
-    }
-
-    function copyAccountNumber() {
-      const accNumber = document.getElementById('account-number').innerText.trim();
-      navigator.clipboard.writeText(accNumber).then(() => {
-        const accBtn = document.getElementById('copy-acc-btn');
-        accBtn.innerText = data[currentLang].copiedAccText;
-        setTimeout(() => {
-          accBtn.innerText = data[currentLang].copyAccBtn;
-        }, 2000);
-      });
-    }
-
-    function renderText() {
-      const t = data[currentLang];
-      document.documentElement.setAttribute('data-lang', currentLang);
-      document.getElementById('lang-toggle').innerText = t.langBtn;
-      document.getElementById('header-title').innerText = t.headerTitle;
-      document.getElementById('subtext').innerText = t.subtext;
-      document.getElementById('info-box').innerHTML = t.infoBox;
-      document.getElementById('order-label').innerText = t.orderLabel;
-      document.getElementById('copy-btn').innerText = t.copyBtn;
-      document.getElementById('copy-acc-btn').innerText = t.copyAccBtn;
-      document.getElementById('threads-link').innerText = t.threadsBtn;
-      document.getElementById('payment-title').innerText = t.paymentTitle;
-      document.getElementById('payment-sub').innerText = t.paymentSub;
-      document.getElementById('connect-text').innerText = t.connect;
-      document.getElementById('faq-link').innerText = t.backFaq;
-
-      t.models.forEach((m, idx) => {
-        document.getElementById(`m${idx}-title`).innerText = m.title;
-        document.getElementById(`m${idx}-desc`).innerText = m.desc;
-      });
-
-      document.querySelectorAll('.card').forEach((card, idx) => {
-        const btn = card.querySelector('.select-btn');
-        btn.innerText = selectedIndices.has(idx) ? t.selected : t.select;
-      });
-
+    function toggleSelect(index) {
+      if (state.selected.has(index)) {
+        if (state.selected.size > 1) state.selected.delete(index);
+      } else {
+        state.selected.add(index);
+      }
+      renderProducts();
       updateOrderText();
     }
 
-    // Initial render
-    updateOrderText();
+    function toggleTheme() {
+      state.theme = state.theme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", state.theme);
+      renderStaticText();
+    }
+
+    function toggleLang() {
+      state.lang = state.lang === "en" ? "vi" : "en";
+      renderAll();
+    }
+
+    /* Copy with fallback for restricted contexts (in-app browsers, insecure origins). */
+    function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+      }
+      return Promise.resolve(legacyCopy(text));
+    }
+
+    function legacyCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (e) {
+        ok = false;
+      }
+      document.body.removeChild(ta);
+      if (!ok) throw new Error("copy failed");
+    }
+
+    /* Tracks timers per button so repeated clicks or language switches don't fight. */
+    const flashTimers = new WeakMap();
+
+    function flashButton(btn, text, restore) {
+      clearTimeout(flashTimers.get(btn));
+      btn.textContent = text;
+      const timer = setTimeout(() => {
+        btn.textContent = restore();
+        flashTimers.delete(btn);
+      }, 2000);
+      flashTimers.set(btn, timer);
+    }
+
+    function copyOrderText() {
+      const btn = el("copy-btn");
+      const text = el("order-text").value;
+      copyToClipboard(text)
+        .then(() => flashButton(btn, t().copied, () => t().copy))
+        .catch(() => flashButton(btn, "✗ copy failed", () => t().copy));
+    }
+
+    function copyAccountNumber() {
+      const btn = el("copy-acc-btn");
+      const text = CONFIG.bank.accountNumber;
+      copyToClipboard(text)
+        .then(() => flashButton(btn, t().copied, () => t().copyAcc))
+        .catch(() => flashButton(btn, "✗ copy failed", () => t().copyAcc));
+    }
+
+    function renderStaticText() {
+      const s = t();
+      document.documentElement.lang = state.lang === "vi" ? "vi" : "en";
+      document.documentElement.setAttribute("data-lang", state.lang);
+
+      el("lang-toggle").textContent = s.langBtn;
+      el("theme-toggle").textContent = state.theme === "light" ? s.themeToDark : s.themeToLight;
+
+      el("header-title").textContent = s.headerTitle;
+      el("subtext").textContent = s.subtext;
+
+      el("info-box").innerHTML = `<strong>${escapeHtml(s.infoLabel)}</strong>${escapeHtml(s.infoText)}`;
+
+      el("order-label").textContent = s.orderLabel;
+      el("copy-btn").textContent = el("copy-btn").dataset.flashing ? el("copy-btn").textContent : s.copy;
+      el("copy-acc-btn").textContent = s.copyAcc;
+      el("threads-link").textContent = s.threadsBtn;
+      el("threads-link").href = CONFIG.threadsUrl;
+
+      el("payment-title").textContent = s.paymentTitle;
+      el("payment-sub").textContent = s.paymentSub;
+      el("lbl-holder").textContent = s.holderLabel;
+      el("val-holder").textContent = CONFIG.bank.holder;
+      el("lbl-bank").textContent = s.bankLabel;
+      el("val-bank").textContent = CONFIG.bank.bankName;
+      el("lbl-account").textContent = s.accountLabel;
+      el("account-number").textContent = CONFIG.bank.accountNumber;
+
+      el("connect-text").textContent = s.connect;
+      el("footer-threads").textContent = s.threads;
+      el("footer-threads").href = CONFIG.threadsUrl;
+      el("faq-link").textContent = s.backFaq;
+      el("faq-link").href = CONFIG.faqUrl;
+
+      document.querySelector(".payment-section img").alt = s.altQr;
+    }
+
+    function renderAll() {
+      renderStaticText();
+      renderProducts();
+      updateOrderText();
+    }
+
+    function init() {
+      el("lang-toggle").addEventListener("click", toggleLang);
+      el("theme-toggle").addEventListener("click", toggleTheme);
+      el("copy-btn").addEventListener("click", copyOrderText);
+      el("copy-acc-btn").addEventListener("click", copyAccountNumber);
+
+      el("products").addEventListener("click", (e) => {
+        const card = e.target.closest(".card");
+        if (!card) return;
+        toggleSelect(Number(card.dataset.index));
+      });
+
+      renderAll();
+    }
+
+    init();
   </script>
 </body>
 </html>
