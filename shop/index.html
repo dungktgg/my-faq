@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dung Leathercraft — Catalog</title>
-  @font-face {
-  font-family: 'DINFont';
-  src: url('../DINfont.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
   <style>
+    @font-face {
+      font-family: 'DINFont';
+      src: url('../DINfont.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     :root {
       --bg-color: #fafafa;
       --text-color: #111111;
@@ -50,11 +51,11 @@
       transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
     }
     body {
-    font-family: 'DINFont', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    padding: 40px 20px;
-    line-height: 1.6;
+      font-family: 'DINFont', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 40px 20px;
+      line-height: 1.6;
     }
     .container {
       max-width: 680px;
@@ -67,6 +68,7 @@
       margin-bottom: 20px;
     }
     .control-btn {
+      font-family: inherit;
       background: var(--btn-bg);
       color: var(--text-color);
       border: 1px solid var(--btn-border);
@@ -141,6 +143,7 @@
       font-size: 1rem;
     }
     .select-btn {
+      font-family: inherit;
       margin-top: 12px;
       width: 100%;
       padding: 10px;
@@ -270,89 +273,4 @@
     const data = {
       en: {
         headerTitle: "handcrafted leather",
-        subtext: "Minimalist cardholders & wallets built to last.",
-        infoBox: "<strong>How to buy:</strong> Select a model below and click order. It will direct you straight to my <strong>Threads inbox</strong> to confirm details and finish your order.",
-        select: "Select Model",
-        selected: "Selected",
-        dmPrefix: "DM on Threads to Order: ",
-        connect: "Connect with me:",
-        backFaq: "Back to FAQ",
-        langBtn: "VIE",
-        models: [
-          { title: "01 / Minimalist Cardholder", desc: "Holds 4–6 cards plus folded cash. Hand-stitched full grain leather." },
-          { title: "02 / Slim Bifold Wallet", desc: "Classic bifold structure without the bulk. 6 card slots + full bill pocket." },
-          { title: "03 / Pocket Coin & Card Sleeve", desc: "Compact envelope style with snap button closure. Fits coins, keys, and cards." }
-        ]
-      },
-      vi: {
-        headerTitle: "đồ da thủ công",
-        subtext: "Ví & bóp đựng thẻ tối giản, thiết kế bền bỉ.",
-        infoBox: "<strong>Cách mua hàng:</strong> Chọn mẫu bên dưới và ấn đặt hàng để nhắn tin trực tiếp qua <strong>Threads inbox</strong> hoàn tất đơn hàng.",
-        select: "Chọn mẫu",
-        selected: "Đã chọn",
-        dmPrefix: "Nhắn Threads để đặt hàng: ",
-        connect: "Kết nối với mình:",
-        backFaq: "Quay lại FAQ",
-        langBtn: "ENG",
-        models: [
-          { title: "01 / Ví đựng thẻ tối giản", desc: "Sức chứa 4–6 thẻ và tiền gấp gọn. Da tấm khâu tay thủ công." },
-          { title: "02 / Ví gập Slim Bifold", desc: "Kiểu gập cổ điển mỏng nhẹ. 6 ngăn thẻ + 1 ngăn tiền mặt." },
-          { title: "03 / Bao da khuy bấm đa năng", desc: "Dạng phong bì nhỏ gọn. Đựng thẻ, tiền xu hoặc chìa khóa." }
-        ]
-      }
-    };
-
-    function toggleTheme() {
-      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      document.getElementById('theme-toggle').innerText = currentTheme === 'light' ? '🌙 Dark' : '☀️ Light';
-    }
-
-    function toggleLang() {
-      currentLang = currentLang === 'en' ? 'vi' : 'en';
-      renderText();
-    }
-
-    function selectModel(cardElem, index) {
-      selectedIndex = index;
-      document.querySelectorAll('.card').forEach((c, idx) => {
-        c.classList.remove('selected');
-        c.querySelector('.select-btn').innerText = data[currentLang].select;
-      });
-
-      cardElem.classList.add('selected');
-      cardElem.querySelector('.select-btn').innerText = data[currentLang].selected;
-      updateOrderButton();
-    }
-
-    function updateOrderButton() {
-      const link = document.getElementById('order-link');
-      const modelTitle = data[currentLang].models[selectedIndex].title;
-      link.innerText = `${data[currentLang].dmPrefix}${modelTitle}`;
-      link.href = THREADS_URL;
-    }
-
-    function renderText() {
-      const t = data[currentLang];
-      document.getElementById('lang-toggle').innerText = t.langBtn;
-      document.getElementById('header-title').innerText = t.headerTitle;
-      document.getElementById('subtext').innerText = t.subtext;
-      document.getElementById('info-box').innerHTML = t.infoBox;
-      document.getElementById('connect-text').innerText = t.connect;
-      document.getElementById('faq-link').innerText = t.backFaq;
-
-      t.models.forEach((m, idx) => {
-        document.getElementById(`m${idx}-title`).innerText = m.title;
-        document.getElementById(`m${idx}-desc`).innerText = m.desc;
-      });
-
-      document.querySelectorAll('.card').forEach((card, idx) => {
-        const btn = card.querySelector('.select-btn');
-        btn.innerText = (idx === selectedIndex) ? t.selected : t.select;
-      });
-
-      updateOrderButton();
-    }
-  </script>
-</body>
-</html>
+        subtext: "Minimalist cardholders & wallets built to last
