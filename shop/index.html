@@ -30,7 +30,7 @@
       --main-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
-    /* apply DIN font strictly for English version */
+    /* apply DIN font strictly for english version */
     [data-lang="en"] {
       --main-font: "DINNextRoundedLTW01-Regular", -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -56,6 +56,7 @@
       margin: 0;
       padding: 0;
       transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+      text-transform: lowercase;
     }
     body {
       font-family: var(--main-font);
@@ -120,10 +121,11 @@
       border-radius: 10px;
       overflow: hidden;
       cursor: pointer;
+      user-select: none;
     }
     .card.selected {
       border-color: var(--text-color);
-      box-shadow: 0 0 0 1px var(--text-color);
+      box-shadow: 0 0 0 2px var(--text-color);
     }
     .card img {
       width: 100%;
@@ -174,20 +176,121 @@
       padding: 16px;
       border-radius: 12px;
       box-shadow: 0 10px 25px var(--shadow-color);
+      margin-bottom: 48px;
+    }
+    .order-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .order-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--subtext-color);
+    }
+    .total-badge {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-color);
+    }
+    .order-textarea {
+      width: 100%;
+      height: 110px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--btn-bg);
+      color: var(--text-color);
+      resize: none;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-copy {
+      flex: 1;
+      font-family: inherit;
+      background: var(--btn-bg);
+      color: var(--text-color);
+      border: 1px solid var(--btn-border);
+      padding: 12px 0;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
       text-align: center;
     }
-    .action-btn {
+    .btn-threads {
+      flex: 2;
       font-family: inherit;
       display: inline-block;
-      width: 100%;
       background: var(--accent-bg);
       color: var(--accent-text);
       text-decoration: none;
-      padding: 14px 0;
+      padding: 12px 0;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
+      text-align: center;
     }
+
+    /* payment section */
+    .payment-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .payment-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .payment-section p {
+      font-size: 0.9rem;
+      color: var(--subtext-color);
+      margin-bottom: 16px;
+    }
+    .qr-container img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      padding: 8px;
+      margin-bottom: 16px;
+    }
+    .bank-details {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      background: var(--info-bg);
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      text-align: left;
+    }
+    .copy-small-btn {
+      font-family: inherit;
+      background: var(--btn-bg);
+      color: var(--text-color);
+      border: 1px solid var(--btn-border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 6px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
     footer {
       margin-top: 48px;
       text-align: center;
@@ -218,12 +321,12 @@
     </header>
 
     <div id="info-box" class="info-box">
-      <strong>how to buy:</strong> select a model below and click order. it will direct you straight to my <strong>threads inbox</strong> to confirm details and finish your order.
+      <strong>how to buy:</strong> tap multiple products below to select them. copy your generated message and send it to my threads inbox.
     </div>
 
     <div class="grid">
       <!-- Model 1 -->
-      <div class="card selected" onclick="selectModel(this, 0)">
+      <div class="card selected" onclick="toggleSelectModel(this, 0)">
         <img src="photo1.png" alt="minimalist cardholder">
         <div class="card-content">
           <div id="m0-title" class="card-title">01 / minimalist cardholder</div>
@@ -234,7 +337,7 @@
       </div>
 
       <!-- Model 2 -->
-      <div class="card" onclick="selectModel(this, 1)">
+      <div class="card" onclick="toggleSelectModel(this, 1)">
         <img src="photo2.png" alt="slim bifold wallet">
         <div class="card-content">
           <div id="m1-title" class="card-title">02 / slim bifold wallet</div>
@@ -245,7 +348,7 @@
       </div>
 
       <!-- Model 3 -->
-      <div class="card" onclick="selectModel(this, 2)">
+      <div class="card" onclick="toggleSelectModel(this, 2)">
         <img src="photo3.png" alt="pocket coin & card sleeve">
         <div class="card-content">
           <div id="m2-title" class="card-title">03 / pocket coin & card sleeve</div>
@@ -256,11 +359,41 @@
       </div>
     </div>
 
-    <!-- Sticky Order Bar -->
+    <!-- Sticky Order Summary Bar -->
     <div class="action-panel">
-      <a id="order-link" class="action-btn" href="https://www.threads.net/@vincentphmd" target="_blank">
-        dm on threads to order: 01 / minimalist cardholder
-      </a>
+      <div class="order-header-row">
+        <span id="order-label" class="order-label">your order message (auto-updated):</span>
+        <span id="total-price-badge" class="total-badge">total: 250,000 vnd</span>
+      </div>
+      
+      <textarea id="order-text" class="order-textarea" readonly></textarea>
+      
+      <div class="button-group">
+        <button id="copy-btn" class="btn-copy" onclick="copyOrderText()">📋 copy text</button>
+        <a id="threads-link" class="btn-threads" href="https://www.threads.net/@vincentphmd" target="_blank">
+          open threads dm ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- Bank Details & QR Section -->
+    <div class="payment-section">
+      <h2 id="payment-title">payment & bank info</h2>
+      <p id="payment-sub">scan qr or use bank details below for payment</p>
+
+      <div class="qr-container">
+        <img src="qrcode.jpg" alt="payment qr code">
+      </div>
+
+      <div class="bank-details">
+        <div><strong>account holder:</strong> pham minh dung</div>
+        <div><strong>bank:</strong> tpbank</div>
+        <div>
+          <strong>account number:</strong> 
+          <span id="account-number">0000 1234 567</span>
+          <button id="copy-acc-btn" class="copy-small-btn" onclick="copyAccountNumber()">📋 copy</button>
+        </div>
+      </div>
     </div>
 
     <footer>
@@ -274,18 +407,31 @@
 
   <script>
     const THREADS_URL = "https://www.threads.net/@vincentphmd"; 
+    const prices = [250000, 380000, 290000];
+    
     let currentTheme = 'light';
     let currentLang = 'en';
-    let selectedIndex = 0;
+    let selectedIndices = new Set([0]);
 
     const data = {
       en: {
         headerTitle: "handcrafted leather",
         subtext: "minimalist cardholders & wallets built to last.",
-        infoBox: "<strong>how to buy:</strong> select a model below and click order. it will direct you straight to my <strong>threads inbox</strong> to confirm details and finish your order.",
+        infoBox: "<strong>how to buy:</strong> tap multiple products below to select them. copy your generated message and send it to my threads inbox.",
         select: "select model",
         selected: "selected",
-        dmPrefix: "dm on threads to order: ",
+        orderLabel: "your order message:",
+        totalLabel: "total: ",
+        copyBtn: "📋 copy text",
+        copiedText: "✓ copied!",
+        copyAccBtn: "📋 copy",
+        copiedAccText: "✓ copied!",
+        noSelection: "please select at least one product.",
+        threadsBtn: "open threads dm ↗",
+        msgHeader: "hi vincent, i would like to order:\n",
+        msgTotalPrefix: "\ntotal price: ",
+        paymentTitle: "payment & bank info",
+        paymentSub: "scan qr code or use bank details below for payment",
         connect: "connect with me:",
         backFaq: "back to faq",
         langBtn: "🇻🇳 vietnamese",
@@ -298,10 +444,21 @@
       vi: {
         headerTitle: "đồ da thủ công",
         subtext: "ví & bóp đựng thẻ tối giản, thiết kế bền bỉ.",
-        infoBox: "<strong>cách mua hàng:</strong> chọn mẫu bên dưới và ấn đặt hàng để nhắn tin trực tiếp qua <strong>threads inbox</strong> hoàn tất đơn hàng.",
+        infoBox: "<strong>cách mua hàng:</strong> bấm chọn nhiều sản phẩm bên dưới. sao chép tin nhắn tự tạo và gửi qua threads inbox.",
         select: "chọn mẫu",
         selected: "đã chọn",
-        dmPrefix: "nhắn threads để đặt hàng: ",
+        orderLabel: "tin nhắn đặt hàng:",
+        totalLabel: "tổng cộng: ",
+        copyBtn: "📋 sao chép",
+        copiedText: "✓ đã sao chép!",
+        copyAccBtn: "📋 sao chép",
+        copiedAccText: "✓ đã sao chép!",
+        noSelection: "vui lòng chọn ít nhất một sản phẩm.",
+        threadsBtn: "mở threads dm ↗",
+        msgHeader: "chào vincent, mình muốn đặt hàng:\n",
+        msgTotalPrefix: "\ntổng chi phí: ",
+        paymentTitle: "thông tin chuyển khoản & qr",
+        paymentSub: "quét mã qr hoặc chuyển khoản theo thông tin bên dưới",
         connect: "kết nối với mình:",
         backFaq: "quay lại faq",
         langBtn: "🇬🇧 english",
@@ -312,6 +469,10 @@
         ]
       }
     };
+
+    function formatVND(amount) {
+      return amount.toLocaleString('en-US') + ' vnd';
+    }
 
     function toggleTheme() {
       currentTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -324,23 +485,67 @@
       renderText();
     }
 
-    function selectModel(cardElem, index) {
-      selectedIndex = index;
-      document.querySelectorAll('.card').forEach((c, idx) => {
-        c.classList.remove('selected');
-        c.querySelector('.select-btn').innerText = data[currentLang].select;
-      });
-
-      cardElem.classList.add('selected');
-      cardElem.querySelector('.select-btn').innerText = data[currentLang].selected;
-      updateOrderButton();
+    function toggleSelectModel(cardElem, index) {
+      if (selectedIndices.has(index)) {
+        if (selectedIndices.size > 1) {
+          selectedIndices.delete(index);
+          cardElem.classList.remove('selected');
+          cardElem.querySelector('.select-btn').innerText = data[currentLang].select;
+        }
+      } else {
+        selectedIndices.add(index);
+        cardElem.classList.add('selected');
+        cardElem.querySelector('.select-btn').innerText = data[currentLang].selected;
+      }
+      updateOrderText();
     }
 
-    function updateOrderButton() {
-      const link = document.getElementById('order-link');
-      const modelTitle = data[currentLang].models[selectedIndex].title;
-      link.innerText = `${data[currentLang].dmPrefix}${modelTitle}`;
-      link.href = THREADS_URL;
+    function updateOrderText() {
+      const textarea = document.getElementById('order-text');
+      const badge = document.getElementById('total-price-badge');
+      const t = data[currentLang];
+
+      if (selectedIndices.size === 0) {
+        textarea.value = t.noSelection;
+        badge.innerText = `${t.totalLabel}0 vnd`;
+        return;
+      }
+
+      let totalPrice = 0;
+      let list = Array.from(selectedIndices)
+        .sort((a, b) => a - b)
+        .map(idx => {
+          totalPrice += prices[idx];
+          return `- ${t.models[idx].title} (${formatVND(prices[idx])})`;
+        })
+        .join('\n');
+
+      const formattedTotal = formatVND(totalPrice);
+      badge.innerText = `${t.totalLabel}${formattedTotal}`;
+      textarea.value = `${t.msgHeader}${list}\n${t.msgTotalPrefix}${formattedTotal}`;
+    }
+
+    function copyOrderText() {
+      const textarea = document.getElementById('order-text');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const copyBtn = document.getElementById('copy-btn');
+        copyBtn.innerText = data[currentLang].copiedText;
+        setTimeout(() => {
+          copyBtn.innerText = data[currentLang].copyBtn;
+        }, 2000);
+      });
+    }
+
+    function copyAccountNumber() {
+      const accNumber = document.getElementById('account-number').innerText.trim();
+      navigator.clipboard.writeText(accNumber).then(() => {
+        const accBtn = document.getElementById('copy-acc-btn');
+        accBtn.innerText = data[currentLang].copiedAccText;
+        setTimeout(() => {
+          accBtn.innerText = data[currentLang].copyAccBtn;
+        }, 2000);
+      });
     }
 
     function renderText() {
@@ -350,6 +555,12 @@
       document.getElementById('header-title').innerText = t.headerTitle;
       document.getElementById('subtext').innerText = t.subtext;
       document.getElementById('info-box').innerHTML = t.infoBox;
+      document.getElementById('order-label').innerText = t.orderLabel;
+      document.getElementById('copy-btn').innerText = t.copyBtn;
+      document.getElementById('copy-acc-btn').innerText = t.copyAccBtn;
+      document.getElementById('threads-link').innerText = t.threadsBtn;
+      document.getElementById('payment-title').innerText = t.paymentTitle;
+      document.getElementById('payment-sub').innerText = t.paymentSub;
       document.getElementById('connect-text').innerText = t.connect;
       document.getElementById('faq-link').innerText = t.backFaq;
 
@@ -360,11 +571,14 @@
 
       document.querySelectorAll('.card').forEach((card, idx) => {
         const btn = card.querySelector('.select-btn');
-        btn.innerText = (idx === selectedIndex) ? t.selected : t.select;
+        btn.innerText = selectedIndices.has(idx) ? t.selected : t.select;
       });
 
-      updateOrderButton();
+      updateOrderText();
     }
+
+    // Initial render
+    updateOrderText();
   </script>
 </body>
 </html>
