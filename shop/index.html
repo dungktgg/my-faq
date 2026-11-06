@@ -7,7 +7,7 @@
   <style>
     @font-face {
       font-family: "DINNextRoundedLTW01-Regular";
-      src: url("DINfont.ttf") format("truetype");
+      src: url("/DINfont.ttf") format("truetype");
       font-weight: normal;
       font-style: normal;
       font-display: swap;
@@ -57,7 +57,7 @@
       transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
     }
 
-    /* Lowercase is applied to page chrome only, not to user-copyable content */
+    /* Lowercase applied to UI elements, excluding user-copyable content */
     body,
     h1, h2, p, label, button, a, strong, span, div {
       text-transform: lowercase;
@@ -296,8 +296,9 @@
     }
 
     .qr-container img {
-      width: 220px;
-      height: 220px;
+      width: 300px;
+      height: 300px;
+      max-width: 100%;
       object-fit: contain;
       border-radius: 10px;
       border: 1px solid var(--border-color);
@@ -387,7 +388,7 @@
       <p id="payment-sub"></p>
 
       <div class="qr-container">
-        <img src="qrcode.jpg" alt="payment qr code" />
+        <img src="qrcode.png" alt="payment qr code" />
       </div>
 
       <div class="bank-details">
@@ -420,7 +421,6 @@
       bank: {
         holder: "PHAM MINH DUNG",
         bankName: "vib",
-        // TODO: replace with the real account number before publishing
         accountNumber: "607809"
       },
       products: [
@@ -624,7 +624,6 @@
       renderAll();
     }
 
-    /* Copy with fallback for restricted contexts (in-app browsers, insecure origins). */
     function copyToClipboard(text) {
       if (navigator.clipboard && window.isSecureContext) {
         return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
@@ -650,7 +649,6 @@
       if (!ok) throw new Error("copy failed");
     }
 
-    /* Tracks timers per button so repeated clicks or language switches don't fight. */
     const flashTimers = new WeakMap();
 
     function flashButton(btn, text, restore) {
@@ -693,8 +691,8 @@
       el("info-box").innerHTML = `<strong>${escapeHtml(s.infoLabel)}</strong>${escapeHtml(s.infoText)}`;
 
       el("order-label").textContent = s.orderLabel;
-      el("copy-btn").textContent = el("copy-btn").dataset.flashing ? el("copy-btn").textContent : s.copy;
-      el("copy-acc-btn").textContent = s.copyAcc;
+      el("copy-btn").textContent = flashTimers.has(el("copy-btn")) ? el("copy-btn").textContent : s.copy;
+      el("copy-acc-btn").textContent = flashTimers.has(el("copy-acc-btn")) ? el("copy-acc-btn").textContent : s.copyAcc;
       el("threads-link").textContent = s.threadsBtn;
       el("threads-link").href = CONFIG.threadsUrl;
 
