@@ -55,7 +55,6 @@
       margin: 0;
       padding: 0;
       border-radius: 0;
-      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
     }
 
     html {
@@ -78,57 +77,14 @@
       padding: 40px 20px;
       line-height: 1.6;
       overflow-x: clip;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* ── Lightbox overlay (half-screen preview on popup image hover) ── */
-    .lightbox {
+    /* Hidden by default on touchscreens to prevent mobile Chrome GPU/paint lag */
+    .lightbox,
+    .page-dimmer,
+    .hover-gallery {
       display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      /* no background — the existing page-dimmer already darkens the page */
-      pointer-events: none;
-    }
-
-    .lightbox.active {
-      display: flex;
-    }
-
-    .lightbox img {
-      /* ~half the viewport height, maintain aspect ratio */
-      max-height: 55vh;
-      max-width: 55vw;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      animation: lb-pop 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-      pointer-events: none;
-    }
-
-    @keyframes lb-pop {
-      from { opacity: 0; transform: scale(0.88); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
-    /* Full-page dimmer active when hovering any product card */
-    .page-dimmer {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 30;
-      transition: opacity 0.45s ease 0.35s;
-    }
-
-    body:has(.card:hover) .page-dimmer,
-    body.is-hovering-card .page-dimmer {
-      opacity: 1;
-      transition: opacity 0.4s ease 0s;
     }
 
     .container {
@@ -147,6 +103,7 @@
       gap: 10px;
       margin-bottom: 24px;
       pointer-events: none;
+      transform: translateZ(0);
     }
 
     .top-bar > * {
@@ -245,34 +202,14 @@
       overflow: visible;
       cursor: pointer;
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
       display: flex;
       flex-direction: column;
-      transition: opacity 0.45s ease 0.35s, filter 0.45s ease 0.35s, border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Dim non-hovered product cards */
-    body:has(.card:hover) .card:not(:hover),
-    body.is-hovering-card .card:not(:hover) {
-      opacity: 0.28;
-      filter: brightness(0.6);
-      transition: opacity 0.4s ease 0s, filter 0.4s ease 0s, border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Elevate hovered card above the dimmer */
-    .card:hover {
-      z-index: 45;
-      border-color: var(--text-color);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
-      transition: opacity 0.3s ease 0s, filter 0.3s ease 0s, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card.selected {
       border-color: var(--text-color);
       box-shadow: 0 0 0 2px var(--text-color);
-    }
-
-    .card.selected:hover {
-      box-shadow: 0 0 0 2px var(--text-color), 0 14px 36px rgba(0, 0, 0, 0.55);
     }
 
     .card > img {
@@ -330,103 +267,171 @@
       border-color: var(--accent-bg);
     }
 
-    /* 3 bigger pop-up secondary photos with smooth, lingering animation */
-    .hover-gallery {
-      pointer-events: none;
+    /* ── Desktop pointer-only hover gallery, dimmer & lightbox ── */
+    @media (hover: hover) and (pointer: fine) and (min-width: 641px) {
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .lightbox.active {
+        display: flex;
+      }
+
+      .lightbox img {
+        max-height: 55vh;
+        max-width: 55vw;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        animation: lb-pop 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+      }
+
+      @keyframes lb-pop {
+        from { opacity: 0; transform: scale(0.88); }
+        to   { opacity: 1; transform: scale(1); }
+      }
+
+      .page-dimmer {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 30;
+        transition: opacity 0.45s ease 0.35s;
+      }
+
+      body:has(.card:hover) .page-dimmer,
+      body.is-hovering-card .page-dimmer {
+        opacity: 1;
+        transition: opacity 0.4s ease 0s;
+      }
+
+      .card {
+        transition: opacity 0.45s ease 0.35s, filter 0.45s ease 0.35s, border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      body:has(.card:hover) .card:not(:hover),
+      body.is-hovering-card .card:not(:hover) {
+        opacity: 0.28;
+        filter: brightness(0.6);
+        transition: opacity 0.4s ease 0s, filter 0.4s ease 0s, border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        z-index: 45;
+        border-color: var(--text-color);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+        transition: opacity 0.3s ease 0s, filter 0.3s ease 0s, border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card.selected:hover {
+        box-shadow: 0 0 0 2px var(--text-color), 0 14px 36px rgba(0, 0, 0, 0.55);
+      }
+
+      .hover-gallery {
+        display: block;
+        pointer-events: none;
+      }
+
+      .popup-shot {
+        position: absolute;
+        width: 265px;
+        aspect-ratio: 4 / 3;
+        background: var(--card-bg);
+        border: 1px solid var(--text-color);
+        padding: 5px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 50;
+        transition: opacity 0.45s ease 0.35s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, box-shadow 0.25s ease;
+      }
+
+      .popup-shot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .card:nth-child(odd) .popup-shot-1 {
+        top: -14px;
+        right: calc(100% + 14px);
+        transform: translateX(18px) scale(0.9);
+      }
+      .card:nth-child(odd) .popup-shot-2 {
+        top: 50%;
+        right: calc(100% + 26px);
+        transform: translate(18px, -50%) scale(0.9);
+        z-index: 51;
+      }
+      .card:nth-child(odd) .popup-shot-3 {
+        bottom: -14px;
+        right: calc(100% + 14px);
+        transform: translateX(18px) scale(0.9);
+      }
+
+      .card:nth-child(even) .popup-shot-1 {
+        top: -14px;
+        left: calc(100% + 14px);
+        transform: translateX(-18px) scale(0.9);
+      }
+      .card:nth-child(even) .popup-shot-2 {
+        top: 50%;
+        left: calc(100% + 26px);
+        transform: translate(-18px, -50%) scale(0.9);
+        z-index: 51;
+      }
+      .card:nth-child(even) .popup-shot-3 {
+        bottom: -14px;
+        left: calc(100% + 14px);
+        transform: translateX(-18px) scale(0.9);
+      }
+
+      .card:hover .popup-shot {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .card:hover .popup-shot-1 {
+        transform: translateX(0) scale(1);
+        transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0s, box-shadow 0.25s ease;
+      }
+      .card:hover .popup-shot-2 {
+        transform: translate(0, -50%) scale(1);
+        transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, box-shadow 0.25s ease;
+      }
+      .card:hover .popup-shot-3 {
+        transform: translateX(0) scale(1);
+        transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, box-shadow 0.25s ease;
+      }
+
+      .card:hover .popup-shot-1:hover,
+      .card:hover .popup-shot-3:hover {
+        z-index: 60;
+        transform: translateX(0) scale(1.08);
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.8);
+        transition-delay: 0s;
+      }
+      .card:hover .popup-shot-2:hover {
+        z-index: 60;
+        transform: translate(0, -50%) scale(1.08);
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.8);
+        transition-delay: 0s;
+      }
     }
 
-    .popup-shot {
-      position: absolute;
-      width: 265px;
-      aspect-ratio: 4 / 3;
-      background: var(--card-bg);
-      border: 1px solid var(--text-color);
-      padding: 5px;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 50;
-      /* Linger 0.35s on mouse-out before smoothly fading out over 0.45s */
-      transition: opacity 0.45s ease 0.35s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, box-shadow 0.25s ease;
-    }
-
-    .popup-shot img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Wide screens (>= 1500px): fan 3 large photos cleanly outside outer edge */
-    .card:nth-child(odd) .popup-shot-1 {
-      top: -14px;
-      right: calc(100% + 14px);
-      transform: translateX(18px) scale(0.9);
-    }
-    .card:nth-child(odd) .popup-shot-2 {
-      top: 50%;
-      right: calc(100% + 26px);
-      transform: translate(18px, -50%) scale(0.9);
-      z-index: 51;
-    }
-    .card:nth-child(odd) .popup-shot-3 {
-      bottom: -14px;
-      right: calc(100% + 14px);
-      transform: translateX(18px) scale(0.9);
-    }
-
-    .card:nth-child(even) .popup-shot-1 {
-      top: -14px;
-      left: calc(100% + 14px);
-      transform: translateX(-18px) scale(0.9);
-    }
-    .card:nth-child(even) .popup-shot-2 {
-      top: 50%;
-      left: calc(100% + 26px);
-      transform: translate(-18px, -50%) scale(0.9);
-      z-index: 51;
-    }
-    .card:nth-child(even) .popup-shot-3 {
-      bottom: -14px;
-      left: calc(100% + 14px);
-      transform: translateX(-18px) scale(0.9);
-    }
-
-    .card:hover .popup-shot {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .card:hover .popup-shot-1 {
-      transform: translateX(0) scale(1);
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0s, box-shadow 0.25s ease;
-    }
-    .card:hover .popup-shot-2 {
-      transform: translate(0, -50%) scale(1);
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, box-shadow 0.25s ease;
-    }
-    .card:hover .popup-shot-3 {
-      transform: translateX(0) scale(1);
-      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, box-shadow 0.25s ease;
-    }
-
-    /* Extra zoom when hovering directly over one of the popped-up images */
-    .card:hover .popup-shot-1:hover,
-    .card:hover .popup-shot-3:hover {
-      z-index: 60;
-      transform: translateX(0) scale(1.08);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.8);
-      transition-delay: 0s;
-    }
-    .card:hover .popup-shot-2:hover {
-      z-index: 60;
-      transform: translate(0, -50%) scale(1.08);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.8);
-      transition-delay: 0s;
-    }
-
-    /* Medium screens (641px–1499px): pop up over dimmed neighbor card inside viewport */
-    @media (max-width: 1499px) and (min-width: 641px) {
+    @media (hover: hover) and (pointer: fine) and (max-width: 1499px) and (min-width: 641px) {
       .popup-shot {
         width: 245px;
       }
@@ -489,6 +494,7 @@
       padding: 16px 20px;
       box-shadow: 0 10px 25px var(--shadow-color);
       margin-bottom: 40px;
+      transform: translateZ(0);
     }
 
     .order-header-row {
@@ -686,10 +692,6 @@
         gap: 20px;
       }
 
-      .hover-gallery {
-        display: none;
-      }
-
       .action-panel {
         padding: 14px;
         bottom: 12px;
@@ -745,7 +747,7 @@
       <p id="payment-sub"></p>
 
       <div class="qr-container">
-        <img src="qrcode.png" alt="payment qr code" />
+        <img src="qrcode.png" alt="payment qr code" loading="lazy" decoding="async" />
       </div>
 
       <div class="bank-details">
@@ -923,6 +925,7 @@
 
     const ZOOM_LEVELS = [75, 85, 90, 100, 110, 120, 130, 145];
     const DEFAULT_ZOOM_INDEX = 3; // 100%
+    const HAS_FINE_HOVER = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     const state = {
       lang: "en",
@@ -955,26 +958,26 @@
       const html = CONFIG.products.map((p, idx) => {
         const info = p[state.lang];
         const isSelected = state.selected.has(idx);
-        const extrasHtml = (p.extraImages || [])
-          .slice(0, 3)
-          .map((src, shotIdx) => `
-            <div class="popup-shot popup-shot-${shotIdx + 1}">
-              <img src="${escapeHtml(src)}" alt="${escapeHtml(info.title)} — view ${shotIdx + 1}" />
-            </div>`)
-          .join("");
+        const extrasHtml = HAS_FINE_HOVER
+          ? (p.extraImages || [])
+              .slice(0, 3)
+              .map((src, shotIdx) => `
+                <div class="popup-shot popup-shot-${shotIdx + 1}">
+                  <img src="${escapeHtml(src)}" alt="${escapeHtml(info.title)} — view ${shotIdx + 1}" loading="lazy" decoding="async" />
+                </div>`)
+              .join("")
+          : "";
 
         return `
           <div class="card${isSelected ? " selected" : ""}" data-index="${idx}">
-            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(info.title)}" />
+            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(info.title)}" decoding="async" />
             <div class="card-content">
               <div class="card-title">${escapeHtml(info.title)}</div>
               <div class="card-desc">${escapeHtml(info.desc)}</div>
               <div class="card-price">${formatVND(p.price)}</div>
               <button class="select-btn" type="button">${isSelected ? s.selected : s.select}</button>
             </div>
-            <div class="hover-gallery" aria-hidden="true">
-              ${extrasHtml}
-            </div>
+            ${extrasHtml ? `<div class="hover-gallery" aria-hidden="true">${extrasHtml}</div>` : ""}
           </div>`;
       }).join("");
       el("products").innerHTML = html;
@@ -1011,7 +1014,15 @@
       } else {
         state.selected.add(index);
       }
-      renderProducts();
+
+      const isSelected = state.selected.has(index);
+      const card = el("products").querySelector(`.card[data-index="${index}"]`);
+      if (card) {
+        card.classList.toggle("selected", isSelected);
+        const btn = card.querySelector(".select-btn");
+        if (btn) btn.textContent = isSelected ? t().selected : t().select;
+      }
+
       updateOrderText();
     }
 
@@ -1169,7 +1180,6 @@
       el("copy-btn").addEventListener("click", copyOrderText);
       el("copy-acc-btn").addEventListener("click", copyAccountNumber);
 
-      let hoverLeaveTimer = null;
       const productsGrid = el("products");
 
       productsGrid.addEventListener("click", (e) => {
@@ -1178,53 +1188,55 @@
         toggleSelect(Number(card.dataset.index));
       });
 
-      productsGrid.addEventListener("mouseover", (e) => {
-        if (e.target.closest(".card")) {
-          clearTimeout(hoverLeaveTimer);
-          document.body.classList.add("is-hovering-card");
-        }
-      });
+      if (HAS_FINE_HOVER) {
+        let hoverLeaveTimer = null;
 
-      productsGrid.addEventListener("mouseout", (e) => {
-        const fromCard = e.target.closest(".card");
-        const toCard = e.relatedTarget ? e.relatedTarget.closest(".card") : null;
-        if (fromCard && !toCard) {
-          hoverLeaveTimer = setTimeout(() => {
-            document.body.classList.remove("is-hovering-card");
-          }, 350);
-        }
-      });
+        productsGrid.addEventListener("mouseover", (e) => {
+          if (e.target.closest(".card")) {
+            clearTimeout(hoverLeaveTimer);
+            document.body.classList.add("is-hovering-card");
+          }
+        });
+
+        productsGrid.addEventListener("mouseout", (e) => {
+          const fromCard = e.target.closest(".card");
+          const toCard = e.relatedTarget ? e.relatedTarget.closest(".card") : null;
+          if (fromCard && !toCard) {
+            hoverLeaveTimer = setTimeout(() => {
+              document.body.classList.remove("is-hovering-card");
+            }, 350);
+          }
+        });
+
+        const lightbox = document.createElement("div");
+        lightbox.className = "lightbox";
+        lightbox.innerHTML = '<img id="lightbox-img" src="" alt="larger view" />';
+        document.body.appendChild(lightbox);
+
+        const lightboxImg = document.getElementById("lightbox-img");
+        let lbHideTimer = null;
+
+        document.addEventListener("mouseover", (e) => {
+          const popupImg = e.target.closest(".popup-shot img");
+          if (popupImg) {
+            clearTimeout(lbHideTimer);
+            lightboxImg.src = popupImg.src;
+            lightbox.classList.add("active");
+          }
+        });
+
+        document.addEventListener("mouseout", (e) => {
+          const popupImg = e.target.closest(".popup-shot img");
+          if (popupImg) {
+            lbHideTimer = setTimeout(() => {
+              lightbox.classList.remove("active");
+            }, 120);
+          }
+        });
+      }
 
       renderAll();
     }
-
-    // ── Lightbox: show half-screen preview when hovering a popup shot ──
-    const lightbox = document.createElement('div');
-    lightbox.className = 'lightbox';
-    lightbox.innerHTML = '<img id="lightbox-img" src="" alt="larger view" />';
-    document.body.appendChild(lightbox);
-
-    const lightboxImg = document.getElementById('lightbox-img');
-    let lbHideTimer = null;
-
-    document.addEventListener('mouseover', (e) => {
-      const popupImg = e.target.closest('.popup-shot img');
-      if (popupImg) {
-        clearTimeout(lbHideTimer);
-        lightboxImg.src = popupImg.src;
-        lightbox.classList.add('active');
-      }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-      const popupImg = e.target.closest('.popup-shot img');
-      if (popupImg) {
-        // small delay so moving between popup shots doesn't flicker
-        lbHideTimer = setTimeout(() => {
-          lightbox.classList.remove('active');
-        }, 120);
-      }
-    });
 
     init();
   </script>
