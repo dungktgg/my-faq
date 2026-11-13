@@ -477,7 +477,7 @@
       youtubeUrl: "https://www.youtube.com/@dungktgg",
       faqUrl: "https://phamminhdung.tech",
       bank: {
-        holder: "PHAM MINH DUNG",
+        holder: "pham minh dung",
         bankName: "vib",
         accountNumber: "607809"
       },
@@ -617,7 +617,7 @@
     const state = {
       lang: "en",
       theme: "light",
-      selected: new Set([0])
+      selected: new Set()
     };
 
     const el = (id) => document.getElementById(id);
@@ -685,7 +685,7 @@
 
     function toggleSelect(index) {
       if (state.selected.has(index)) {
-        if (state.selected.size > 1) state.selected.delete(index);
+        state.selected.delete(index);
       } else {
         state.selected.add(index);
       }
