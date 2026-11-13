@@ -77,6 +77,58 @@
       color: var(--text-color);
       padding: 40px 20px;
       line-height: 1.6;
+      overflow-x: clip;
+    }
+
+    /* ── Lightbox overlay (half-screen preview on popup image hover) ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      /* no background — the existing page-dimmer already darkens the page */
+      pointer-events: none;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      /* ~half the viewport height, maintain aspect ratio */
+      max-height: 55vh;
+      max-width: 55vw;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      animation: lb-pop 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    @keyframes lb-pop {
+      from { opacity: 0; transform: scale(0.88); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Full-page dimmer active when hovering any product card */
+    .page-dimmer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 30;
+      transition: opacity 0.45s ease 0.35s;
+    }
+
+    body:has(.card:hover) .page-dimmer,
+    body.is-hovering-card .page-dimmer {
+      opacity: 1;
+      transition: opacity 0.4s ease 0s;
     }
 
     .container {
@@ -84,11 +136,22 @@
       margin: 0 auto;
     }
 
+    /* Sticky floating top bar */
     .top-bar {
+      position: sticky;
+      top: 16px;
+      z-index: 25;
       display: flex;
       justify-content: flex-end;
-      gap: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 24px;
+      pointer-events: none;
+    }
+
+    .top-bar > * {
+      pointer-events: auto;
+      box-shadow: 0 4px 12px var(--shadow-color);
     }
 
     .control-btn {
@@ -100,6 +163,45 @@
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
+    }
+
+    .zoom-controls {
+      display: inline-flex;
+      align-items: stretch;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+    }
+
+    .zoom-btn {
+      font-family: inherit;
+      background: transparent;
+      color: var(--text-color);
+      border: none;
+      padding: 9px 13px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .zoom-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .zoom-reset {
+      font-family: inherit;
+      background: transparent;
+      color: var(--text-color);
+      border: none;
+      border-left: 1px solid var(--btn-border);
+      border-right: 1px solid var(--btn-border);
+      padding: 9px 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      min-width: 54px;
+      text-align: center;
     }
 
     header {
@@ -136,13 +238,32 @@
     }
 
     .card {
+      position: relative;
+      z-index: 1;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      overflow: hidden;
+      overflow: visible;
       cursor: pointer;
       user-select: none;
       display: flex;
       flex-direction: column;
+      transition: opacity 0.45s ease 0.35s, filter 0.45s ease 0.35s, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Dim non-hovered product cards */
+    body:has(.card:hover) .card:not(:hover),
+    body.is-hovering-card .card:not(:hover) {
+      opacity: 0.28;
+      filter: brightness(0.6);
+      transition: opacity 0.4s ease 0s, filter 0.4s ease 0s, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Elevate hovered card above the dimmer */
+    .card:hover {
+      z-index: 45;
+      border-color: var(--text-color);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+      transition: opacity 0.3s ease 0s, filter 0.3s ease 0s, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card.selected {
@@ -150,7 +271,11 @@
       box-shadow: 0 0 0 2px var(--text-color);
     }
 
-    .card img {
+    .card.selected:hover {
+      box-shadow: 0 0 0 2px var(--text-color), 0 14px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    .card > img {
       width: 100%;
       aspect-ratio: 4 / 3;
       height: auto;
@@ -205,9 +330,160 @@
       border-color: var(--accent-bg);
     }
 
+    /* 3 bigger pop-up secondary photos with smooth, lingering animation */
+    .hover-gallery {
+      pointer-events: none;
+    }
+
+    .popup-shot {
+      position: absolute;
+      width: 265px;
+      aspect-ratio: 4 / 3;
+      background: var(--card-bg);
+      border: 1px solid var(--text-color);
+      padding: 5px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+      /* Linger 0.35s on mouse-out before smoothly fading out over 0.45s */
+      transition: opacity 0.45s ease 0.35s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.35s, box-shadow 0.25s ease;
+    }
+
+    .popup-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Wide screens (>= 1500px): fan 3 large photos cleanly outside outer edge */
+    .card:nth-child(odd) .popup-shot-1 {
+      top: -14px;
+      right: calc(100% + 14px);
+      transform: translateX(18px) scale(0.9);
+    }
+    .card:nth-child(odd) .popup-shot-2 {
+      top: 50%;
+      right: calc(100% + 26px);
+      transform: translate(18px, -50%) scale(0.9);
+      z-index: 51;
+    }
+    .card:nth-child(odd) .popup-shot-3 {
+      bottom: -14px;
+      right: calc(100% + 14px);
+      transform: translateX(18px) scale(0.9);
+    }
+
+    .card:nth-child(even) .popup-shot-1 {
+      top: -14px;
+      left: calc(100% + 14px);
+      transform: translateX(-18px) scale(0.9);
+    }
+    .card:nth-child(even) .popup-shot-2 {
+      top: 50%;
+      left: calc(100% + 26px);
+      transform: translate(-18px, -50%) scale(0.9);
+      z-index: 51;
+    }
+    .card:nth-child(even) .popup-shot-3 {
+      bottom: -14px;
+      left: calc(100% + 14px);
+      transform: translateX(-18px) scale(0.9);
+    }
+
+    .card:hover .popup-shot {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .card:hover .popup-shot-1 {
+      transform: translateX(0) scale(1);
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0s, box-shadow 0.25s ease;
+    }
+    .card:hover .popup-shot-2 {
+      transform: translate(0, -50%) scale(1);
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, box-shadow 0.25s ease;
+    }
+    .card:hover .popup-shot-3 {
+      transform: translateX(0) scale(1);
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.16s, box-shadow 0.25s ease;
+    }
+
+    /* Extra zoom when hovering directly over one of the popped-up images */
+    .card:hover .popup-shot-1:hover,
+    .card:hover .popup-shot-3:hover {
+      z-index: 60;
+      transform: translateX(0) scale(1.08);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.8);
+      transition-delay: 0s;
+    }
+    .card:hover .popup-shot-2:hover {
+      z-index: 60;
+      transform: translate(0, -50%) scale(1.08);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.8);
+      transition-delay: 0s;
+    }
+
+    /* Medium screens (641px–1499px): pop up over dimmed neighbor card inside viewport */
+    @media (max-width: 1499px) and (min-width: 641px) {
+      .popup-shot {
+        width: 245px;
+      }
+
+      .card:nth-child(odd) .popup-shot-1 {
+        right: auto;
+        left: calc(100% + 14px);
+        transform: translateX(-18px) scale(0.9);
+      }
+      .card:nth-child(odd) .popup-shot-2 {
+        right: auto;
+        left: calc(100% + 24px);
+        transform: translate(-18px, -50%) scale(0.9);
+      }
+      .card:nth-child(odd) .popup-shot-3 {
+        right: auto;
+        left: calc(100% + 14px);
+        transform: translateX(-18px) scale(0.9);
+      }
+
+      .card:nth-child(even) .popup-shot-1 {
+        left: auto;
+        right: calc(100% + 14px);
+        transform: translateX(18px) scale(0.9);
+      }
+      .card:nth-child(even) .popup-shot-2 {
+        left: auto;
+        right: calc(100% + 24px);
+        transform: translate(18px, -50%) scale(0.9);
+      }
+      .card:nth-child(even) .popup-shot-3 {
+        left: auto;
+        right: calc(100% + 14px);
+        transform: translateX(18px) scale(0.9);
+      }
+
+      .card:hover .popup-shot-1,
+      .card:hover .popup-shot-3 {
+        transform: translateX(0) scale(1);
+      }
+      .card:hover .popup-shot-2 {
+        transform: translate(0, -50%) scale(1);
+      }
+
+      .card:hover .popup-shot-1:hover,
+      .card:hover .popup-shot-3:hover {
+        transform: translateX(0) scale(1.08);
+      }
+      .card:hover .popup-shot-2:hover {
+        transform: translate(0, -50%) scale(1.08);
+      }
+    }
+
     .action-panel {
       position: sticky;
       bottom: 20px;
+      z-index: 20;
       background: var(--card-bg);
       border: 1px solid var(--text-color);
       padding: 16px 20px;
@@ -238,7 +514,7 @@
 
     .order-textarea {
       width: 100%;
-      height: 112px;
+      height: 7rem;
       font-family: inherit;
       font-size: 0.92rem;
       line-height: 1.5;
@@ -384,14 +660,34 @@
         padding: 24px 14px;
       }
 
+      .top-bar {
+        top: 10px;
+        gap: 8px;
+      }
+
       .control-btn {
-        padding: 8px 14px;
-        font-size: 0.9rem;
+        padding: 8px 12px;
+        font-size: 0.88rem;
+      }
+
+      .zoom-btn {
+        padding: 8px 10px;
+        font-size: 0.88rem;
+      }
+
+      .zoom-reset {
+        padding: 8px 8px;
+        font-size: 0.8rem;
+        min-width: 46px;
       }
 
       .grid {
         grid-template-columns: 1fr;
         gap: 20px;
+      }
+
+      .hover-gallery {
+        display: none;
       }
 
       .action-panel {
@@ -403,8 +699,15 @@
 </head>
 <body>
 
+  <div class="page-dimmer" aria-hidden="true"></div>
+
   <div class="container">
     <div class="top-bar">
+      <div class="zoom-controls">
+        <button id="zoom-out" class="zoom-btn" type="button" aria-label="zoom out">🔍−</button>
+        <button id="zoom-reset" class="zoom-reset" type="button" title="reset zoom">100%</button>
+        <button id="zoom-in" class="zoom-btn" type="button" aria-label="zoom in">🔍+</button>
+      </div>
       <button id="lang-toggle" class="control-btn" type="button"></button>
       <button id="theme-toggle" class="control-btn" type="button"></button>
     </div>
@@ -486,6 +789,7 @@
           id: "cardholder",
           price: 290000,
           image: "photo1.png",
+          extraImages: ["photo1_1.jpg", "photo1_2.jpg", "photo1_3.jpg"],
           en: {
             title: "01 / cardholder",
             desc: "> protects bank cards, id cards, and membership cards\n> great for keeping cards safe inside a tote, backpack, or larger wallet\n> or as an everyday mini wallet for card-heavy, low-cash carry"
@@ -499,6 +803,7 @@
           id: "vertical-cardholder",
           price: 67000,
           image: "photo2.png",
+          extraImages: ["photo2_1.jpg", "photo2_2.jpg", "photo2_3 .jpg"],
           en: {
             title: "02 / vertical cardholder",
             desc: "> same as above =))"
@@ -512,6 +817,7 @@
           id: "vertical-bifold",
           price: 350000,
           image: "photo3.png",
+          extraImages: ["photo3_1.jpg", "photo3_2.jpg", "photo3_3 .jpg"],
           en: {
             title: "03 / vertical bifold cardholder",
             desc: "> an upgraded cardholder, slim enough for pockets and spacious enough for extra cards and cash"
@@ -525,6 +831,7 @@
           id: "classic-bifold",
           price: 420000,
           image: "photo4.png",
+          extraImages: ["photo4_1.jpg", "photo4_2.jpg", "photo4_3.jpg"],
           en: {
             title: "04 / classic bifold wallet",
             desc: "> classic bifold wallet, 6 card slots and 1 bill compartment"
@@ -614,9 +921,13 @@
       }
     };
 
+    const ZOOM_LEVELS = [75, 85, 90, 100, 110, 120, 130, 145];
+    const DEFAULT_ZOOM_INDEX = 3; // 100%
+
     const state = {
       lang: "en",
       theme: "light",
+      zoomIndex: DEFAULT_ZOOM_INDEX,
       selected: new Set()
     };
 
@@ -644,6 +955,14 @@
       const html = CONFIG.products.map((p, idx) => {
         const info = p[state.lang];
         const isSelected = state.selected.has(idx);
+        const extrasHtml = (p.extraImages || [])
+          .slice(0, 3)
+          .map((src, shotIdx) => `
+            <div class="popup-shot popup-shot-${shotIdx + 1}">
+              <img src="${escapeHtml(src)}" alt="${escapeHtml(info.title)} — view ${shotIdx + 1}" />
+            </div>`)
+          .join("");
+
         return `
           <div class="card${isSelected ? " selected" : ""}" data-index="${idx}">
             <img src="${escapeHtml(p.image)}" alt="${escapeHtml(info.title)}" />
@@ -652,6 +971,9 @@
               <div class="card-desc">${escapeHtml(info.desc)}</div>
               <div class="card-price">${formatVND(p.price)}</div>
               <button class="select-btn" type="button">${isSelected ? s.selected : s.select}</button>
+            </div>
+            <div class="hover-gallery" aria-hidden="true">
+              ${extrasHtml}
             </div>
           </div>`;
       }).join("");
@@ -691,6 +1013,31 @@
       }
       renderProducts();
       updateOrderText();
+    }
+
+    function applyZoom() {
+      const pct = ZOOM_LEVELS[state.zoomIndex];
+      document.documentElement.style.fontSize = (16 * (pct / 100)) + "px";
+      renderStaticText();
+    }
+
+    function zoomOut() {
+      if (state.zoomIndex > 0) {
+        state.zoomIndex--;
+        applyZoom();
+      }
+    }
+
+    function zoomIn() {
+      if (state.zoomIndex < ZOOM_LEVELS.length - 1) {
+        state.zoomIndex++;
+        applyZoom();
+      }
+    }
+
+    function zoomReset() {
+      state.zoomIndex = DEFAULT_ZOOM_INDEX;
+      applyZoom();
     }
 
     function toggleTheme() {
@@ -762,6 +1109,10 @@
       document.documentElement.lang = state.lang === "vi" ? "vi" : "en";
       document.documentElement.setAttribute("data-lang", state.lang);
 
+      el("zoom-reset").textContent = `${ZOOM_LEVELS[state.zoomIndex]}%`;
+      el("zoom-out").disabled = state.zoomIndex === 0;
+      el("zoom-in").disabled = state.zoomIndex === ZOOM_LEVELS.length - 1;
+
       el("lang-toggle").textContent = s.langBtn;
       el("theme-toggle").textContent = state.theme === "light" ? s.themeToDark : s.themeToLight;
 
@@ -810,19 +1161,70 @@
     }
 
     function init() {
+      el("zoom-out").addEventListener("click", zoomOut);
+      el("zoom-in").addEventListener("click", zoomIn);
+      el("zoom-reset").addEventListener("click", zoomReset);
       el("lang-toggle").addEventListener("click", toggleLang);
       el("theme-toggle").addEventListener("click", toggleTheme);
       el("copy-btn").addEventListener("click", copyOrderText);
       el("copy-acc-btn").addEventListener("click", copyAccountNumber);
 
-      el("products").addEventListener("click", (e) => {
+      let hoverLeaveTimer = null;
+      const productsGrid = el("products");
+
+      productsGrid.addEventListener("click", (e) => {
         const card = e.target.closest(".card");
         if (!card) return;
         toggleSelect(Number(card.dataset.index));
       });
 
+      productsGrid.addEventListener("mouseover", (e) => {
+        if (e.target.closest(".card")) {
+          clearTimeout(hoverLeaveTimer);
+          document.body.classList.add("is-hovering-card");
+        }
+      });
+
+      productsGrid.addEventListener("mouseout", (e) => {
+        const fromCard = e.target.closest(".card");
+        const toCard = e.relatedTarget ? e.relatedTarget.closest(".card") : null;
+        if (fromCard && !toCard) {
+          hoverLeaveTimer = setTimeout(() => {
+            document.body.classList.remove("is-hovering-card");
+          }, 350);
+        }
+      });
+
       renderAll();
     }
+
+    // ── Lightbox: show half-screen preview when hovering a popup shot ──
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = '<img id="lightbox-img" src="" alt="larger view" />';
+    document.body.appendChild(lightbox);
+
+    const lightboxImg = document.getElementById('lightbox-img');
+    let lbHideTimer = null;
+
+    document.addEventListener('mouseover', (e) => {
+      const popupImg = e.target.closest('.popup-shot img');
+      if (popupImg) {
+        clearTimeout(lbHideTimer);
+        lightboxImg.src = popupImg.src;
+        lightbox.classList.add('active');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      const popupImg = e.target.closest('.popup-shot img');
+      if (popupImg) {
+        // small delay so moving between popup shots doesn't flicker
+        lbHideTimer = setTimeout(() => {
+          lightbox.classList.remove('active');
+        }, 120);
+      }
+    });
 
     init();
   </script>
