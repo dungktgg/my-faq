@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Handcrafted leather wallets and cardholders from Vietnam. Minimalist design, saddle-stitched, full-grain leather." />
+  <meta property="og:title" content="Vincent Leathercraft — Catalog" />
+  <meta property="og:description" content="Minimalist cardholders & wallets, hand-stitched from full-grain leather. Built to last." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://phamminhdung.tech/shop/" />
+  <meta property="og:image" content="https://phamminhdung.tech/shop/photo1.png" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>" />
   <title>vincent leathercraft — catalog</title>
   <style>
     @font-face {
@@ -655,6 +662,10 @@
       padding-top: 20px;
     }
 
+    footer p + p {
+      margin-top: 8px;
+    }
+
     footer a {
       color: var(--text-color);
       text-decoration: underline;
@@ -747,7 +758,7 @@
       <p id="payment-sub"></p>
 
       <div class="qr-container">
-        <img src="qrcode.png" alt="payment qr code" loading="lazy" decoding="async" />
+        <img id="qr-img" src="qrcode.png" alt="payment qr code" loading="lazy" decoding="async" />
       </div>
 
       <div class="bank-details">
@@ -763,7 +774,7 @@
 
     <footer>
       <p id="connect-text"></p>
-      <p style="margin-top: 8px;">
+      <p id="footer-links">
         <a id="footer-threads" target="_blank" rel="noopener noreferrer"></a> •
         <a id="footer-zalo" target="_blank" rel="noopener noreferrer"></a> •
         <a id="footer-youtube" target="_blank" rel="noopener noreferrer"></a> •
@@ -805,7 +816,7 @@
           id: "vertical-cardholder",
           price: 67000,
           image: "photo2.png",
-          extraImages: ["photo2_1.jpg", "photo2_2.jpg", "photo2_3 .jpg"],
+          extraImages: ["photo2_1.jpg", "photo2_2.jpg", "photo2_3.jpg"],
           en: {
             title: "02 / vertical cardholder",
             desc: "> same as above =))"
@@ -819,7 +830,7 @@
           id: "vertical-bifold",
           price: 350000,
           image: "photo3.png",
-          extraImages: ["photo3_1.jpg", "photo3_2.jpg", "photo3_3 .jpg"],
+          extraImages: ["photo3_1.jpg", "photo3_2.jpg", "photo3_3.jpg"],
           en: {
             title: "03 / vertical bifold cardholder",
             desc: "> an upgraded cardholder, slim enough for pockets and spacious enough for extra cards and cash"
@@ -861,7 +872,9 @@
         total: "total:",
         copy: "📋 copy text",
         copied: "✓ copied!",
+        copyFailed: "✗ copy failed",
         copyAcc: "📋 copy",
+        imageSoon: "photo coming soon",
         threadsBtn: "open threads dm ↗",
         msgHeader: "hi vincent, i would like to order:",
         msgTotal: "total price:",
@@ -898,7 +911,9 @@
         total: "tổng cộng:",
         copy: "📋 sao chép",
         copied: "✓ đã sao chép!",
+        copyFailed: "✗ sao chép lỗi",
         copyAcc: "📋 sao chép",
+        imageSoon: "ảnh đang cập nhật",
         threadsBtn: "mở threads dm ↗",
         msgHeader: "chào vincent, mình muốn đặt hàng:",
         msgTotal: "tổng chi phí:",
@@ -968,9 +983,10 @@
               .join("")
           : "";
 
+        const lazy = idx > 0 ? ' loading="lazy"' : '';
         return `
           <div class="card${isSelected ? " selected" : ""}" data-index="${idx}">
-            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(info.title)}" decoding="async" />
+            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(info.title)}" width="600" height="450" decoding="async"${lazy} />
             <div class="card-content">
               <div class="card-title">${escapeHtml(info.title)}</div>
               <div class="card-desc">${escapeHtml(info.desc)}</div>
@@ -1029,7 +1045,10 @@
     function applyZoom() {
       const pct = ZOOM_LEVELS[state.zoomIndex];
       document.documentElement.style.fontSize = (16 * (pct / 100)) + "px";
-      renderStaticText();
+      // Only update the zoom label — no need to re-render all static text
+      el("zoom-reset").textContent = `${pct}%`;
+      el("zoom-out").disabled = state.zoomIndex === 0;
+      el("zoom-in").disabled = state.zoomIndex === ZOOM_LEVELS.length - 1;
     }
 
     function zoomOut() {
@@ -1059,7 +1078,20 @@
 
     function toggleLang() {
       state.lang = state.lang === "en" ? "vi" : "en";
-      renderAll();
+      // Update text content in-place — no need to rebuild the whole product grid
+      renderStaticText();
+      // Update only product titles, descs, and button labels without touching DOM structure
+      CONFIG.products.forEach((p, idx) => {
+        const card = el("products").querySelector(`.card[data-index="${idx}"]`);
+        if (!card) return;
+        const info = p[state.lang];
+        const isSelected = state.selected.has(idx);
+        card.querySelector(".card-title").textContent = info.title;
+        card.querySelector(".card-desc").textContent = info.desc;
+        const btn = card.querySelector(".select-btn");
+        if (btn) btn.textContent = isSelected ? t().selected : t().select;
+      });
+      updateOrderText();
     }
 
     function copyToClipboard(text) {
@@ -1120,10 +1152,6 @@
       document.documentElement.lang = state.lang === "vi" ? "vi" : "en";
       document.documentElement.setAttribute("data-lang", state.lang);
 
-      el("zoom-reset").textContent = `${ZOOM_LEVELS[state.zoomIndex]}%`;
-      el("zoom-out").disabled = state.zoomIndex === 0;
-      el("zoom-in").disabled = state.zoomIndex === ZOOM_LEVELS.length - 1;
-
       el("lang-toggle").textContent = s.langBtn;
       el("theme-toggle").textContent = state.theme === "light" ? s.themeToDark : s.themeToLight;
 
@@ -1162,7 +1190,7 @@
       el("faq-link").textContent = s.backFaq;
       el("faq-link").href = CONFIG.faqUrl;
 
-      document.querySelector(".payment-section img").alt = s.altQr;
+      el("qr-img").alt = s.altQr;
     }
 
     function renderAll() {
