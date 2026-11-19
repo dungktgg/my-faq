@@ -1,35 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="FAQ — personal details, interests, and links. Handcrafted leather shop by Vincent." />
-    <title>FAQ</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="wrap">
-      <a href="/shop" class="shop-btn" aria-label="Open the handcrafted leather shop">🛒 handcrafted leather shop</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="vincent — handcrafted leather shop, faq, and links." />
+  <title>vincent</title>
+  <style>
+    @font-face {
+      font-family: "DINNextRoundedLTW01-Regular";
+      src: url("/DINfont.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
 
-      <section class="panel" aria-labelledby="faq-title">
-        <h1 id="faq-title">FAQ</h1>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+    }
 
-        <div class="details-block">
-          <p class="label">personal details:</p>
-          <ul class="facts">
-            <li><span class="fact-label">age</span><span>18</span></li>
-            <li><span class="fact-label">birthday</span><span>aug 7</span></li>
-            <li><span class="fact-label">where are you from?</span><span>vietnam</span></li>
-            <li><span class="fact-label">what's your height?</span><span>172 cm</span></li>
-            <li><span class="fact-label">major</span><span>it</span></li>
-            <li><span class="fact-label">orientation</span><span>straight</span></li>
-            <li><span class="fact-label">what's your mbti</span><span>(old) intp → infj-t</span></li>
-            <li><span class="fact-label">what's your fav food?</span><span>bun bo hue, oreo, grape</span></li>
-          </ul>
-        </div>
+    body,
+    h1, p, a, span, nav {
+      text-transform: lowercase;
+    }
 
-        <p class="thanks">thank you!</p>
-      </section>
-    </main>
-  </body>
+    body {
+      font-family: "DINNextRoundedLTW01-Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #a97954;
+      color: #34000b;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    .card {
+      background: #f6f2ea;
+      border: 1px solid #a97954;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .cover-wrap img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      background: #e8ddd0;
+    }
+
+    .card-body {
+      padding: 24px 24px 20px;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      color: #34000b;
+    }
+
+    .tagline {
+      font-size: 0.92rem;
+      color: #532c2e;
+      margin-bottom: 20px;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    nav a {
+      display: block;
+      text-align: center;
+      padding: 11px 16px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #34000b;
+      border: 1px solid #a97954;
+      background: #f6f2ea;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      background: #532c2e;
+      color: #f6f2ea;
+      border-color: #532c2e;
+      outline: none;
+    }
+
+    nav a:focus-visible {
+      outline: 2px solid #34000b;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 480px) {
+      .card-body {
+        padding: 18px 16px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="cover-wrap">
+      <img src="/cover.jpg" alt="vincent — handcrafted leather" decoding="async" />
+    </div>
+    <div class="card-body">
+      <h1>vincent</h1>
+      <p class="tagline">handcrafted leather &amp; more.</p>
+      <nav aria-label="main navigation">
+        <a href="/shop">🛒 shop</a>
+        <a href="/faq">📋 faq</a>
+        <a href="https://www.threads.net/@vincentphmd" target="_blank" rel="noopener noreferrer">🧵 threads</a>
+      </nav>
+    </div>
+  </div>
+</body>
 </html>
