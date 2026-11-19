@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open index.html",
-            "file": "/home/dung/my-faq/shop/index.html"
+            "file": "/home/dung/my_faq/index.html"
         }
     ]
 }
