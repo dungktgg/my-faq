@@ -766,8 +766,7 @@
       <p style="margin-top: 8px;">
         <a id="footer-threads" target="_blank" rel="noopener noreferrer"></a> •
         <a id="footer-zalo" target="_blank" rel="noopener noreferrer"></a> •
-        <a id="footer-youtube" target="_blank" rel="noopener noreferrer"></a> •
-        <a id="faq-link" rel="noopener"></a>
+        <a id="footer-youtube" target="_blank" rel="noopener noreferrer"></a>
       </p>
     </footer>
   </div>
@@ -780,7 +779,6 @@
       threadsUrl: "https://www.threads.net/@vincentphmd",
       zaloUrl: "https://zalo.me/0373242829",
       youtubeUrl: "https://www.youtube.com/@dungktgg",
-      faqUrl: "/faq",
       bank: {
         holder: "pham minh dung",
         bankName: "vib",
@@ -880,7 +878,6 @@
         threads: "threads",
         zalo: "zalo",
         youtube: "youtube",
-        backFaq: "back to faq",
         noSelection: "please select at least one product.",
         altQr: "payment qr code"
       },
@@ -917,7 +914,6 @@
         threads: "threads",
         zalo: "zalo",
         youtube: "youtube",
-        backFaq: "quay lại faq",
         noSelection: "vui lòng chọn ít nhất một sản phẩm.",
         altQr: "mã qr thanh toán"
       }
@@ -1159,8 +1155,6 @@
       el("footer-zalo").href = CONFIG.zaloUrl;
       el("footer-youtube").textContent = s.youtube;
       el("footer-youtube").href = CONFIG.youtubeUrl;
-      el("faq-link").textContent = s.backFaq;
-      el("faq-link").href = CONFIG.faqUrl;
 
       document.querySelector(".payment-section img").alt = s.altQr;
     }
