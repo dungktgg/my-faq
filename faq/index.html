@@ -1,35 +1,70 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="FAQ — personal details, interests, and links. Handcrafted leather shop by Vincent." />
-    <title>FAQ</title>
-    <link rel="stylesheet" href="/faq/style.css" />
-  </head>
-  <body>
-    <main class="wrap">
-      <a href="/shop" class="shop-btn" aria-label="Open the handcrafted leather shop">🛒 handcrafted leather shop</a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>faq</title>
+  <style>
+    @font-face {
+      font-family: "DIN";
+      src: url("/DINfont.ttf") format("truetype");
+      font-display: swap;
+    }
 
-      <section class="panel" aria-labelledby="faq-title">
-        <h1 id="faq-title">FAQ</h1>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        <div class="details-block">
-          <p class="label">personal details:</p>
-          <ul class="facts">
-            <li><span class="fact-label">age</span><span>18</span></li>
-            <li><span class="fact-label">birthday</span><span>aug 7</span></li>
-            <li><span class="fact-label">where are you from?</span><span>vietnam</span></li>
-            <li><span class="fact-label">what's your height?</span><span>172 cm</span></li>
-            <li><span class="fact-label">major</span><span>it</span></li>
-            <li><span class="fact-label">orientation</span><span>straight</span></li>
-            <li><span class="fact-label">what's your mbti</span><span>(old) intp → infj-t</span></li>
-            <li><span class="fact-label">what's your fav food?</span><span>bun bo hue, oreo, grape</span></li>
-          </ul>
-        </div>
+    body {
+      font-family: "DIN", "Segoe UI", sans-serif;
+      background: #a97954;
+      color: #34000b;
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-transform: lowercase;
+      line-height: 1.6;
+    }
 
-        <p class="thanks">thank you!</p>
-      </section>
-    </main>
-  </body>
+    .card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #f6f2ea;
+      border: 1px solid #a97954;
+      padding: 28px 24px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    tr { border-bottom: 1px solid rgba(52,0,11,0.12); }
+    tr:last-child { border-bottom: none; }
+
+    td { padding: 9px 0; vertical-align: top; }
+    td:first-child { color: #532c2e; width: 55%; }
+    td:last-child { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>faq</h1>
+    <table>
+      <tr><td>age</td><td>18</td></tr>
+      <tr><td>birthday</td><td>aug 7</td></tr>
+      <tr><td>where are you from?</td><td>vietnam</td></tr>
+      <tr><td>height?</td><td>172 cm</td></tr>
+      <tr><td>major</td><td>it</td></tr>
+      <tr><td>orientation</td><td>straight</td></tr>
+      <tr><td>mbti</td><td>(old) intp → infj-t</td></tr>
+      <tr><td>fav food?</td><td>bun bo hue, oreo, grape</td></tr>
+    </table>
+  </div>
+</body>
 </html>
